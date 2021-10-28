@@ -9,6 +9,7 @@ from selenium.webdriver.support.wait import WebDriverWait #XXX: Potentially unus
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support.ui import Select
 
 
 first_name = "Janek"
@@ -66,3 +67,12 @@ def book():
     element = driver.find_element(By.CSS_SELECTOR, f".drp-row:nth-child({i+2}) > .drp-col-12 > input")
     driver.execute_script("arguments[0].click();", element)
     element.send_keys(inputs_group[i])
+
+  select = Select(driver.find_element(By.CSS_SELECTOR, ".drp-course-booking-tariff-select > .drp-w-100"))
+  select.select_by_value("68083827")
+  time.sleep(1)
+  driver.find_element(By.CSS_SELECTOR, ".drp-col-8:nth-child(6) > .drp-w-100").send_keys("100047904")
+  driver.find_element(By.ID, "drp-course-booking-client-terms-cb").click()
+  driver.find_element(By.ID, "drp-course-booking-data-processing-cb").click()
+
+  driver.find_element(By.CSS_SELECTOR, ".drp-course-booking-continue").click()
