@@ -43,7 +43,7 @@ class TestBouldergartenBookingTest():
     # WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.ID, "eintritt-buchen")))
     time.sleep(1)
     # # 7 | click | css=.drp-calendar-week:nth-child(4) > .drp-calendar-day:nth-child(6) |
-    element = self.driver.find_element(By.CSS_SELECTOR, ".drp-calendar-day-dates")
+    element = self.driver.find_element(By.CSS_SELECTOR, ".drp-calendar-day-dates.drp-calendar-day:nth-child(7)")
     self.driver.execute_script("arguments[0].click();", element)
     # 8 | runScript | window.scrollTo(0,3879) |
     # self.driver.execute_script("window.scrollTo(0,3879)")
@@ -51,7 +51,7 @@ class TestBouldergartenBookingTest():
     # items = driver.find_elements_by_css_selector("div.examplenameA:not(.examplenameB)")
     # 9 | click | css=.drp-course-date-item:nth-child(21) .drp-course-date-item-booking-button > span |
     time.sleep(1)
-    element = self.driver.find_element(By.CSS_SELECTOR, ".drp-course-date-item:nth-child(5) .drp-course-date-item-booking-button > span")
+    element = self.driver.find_element(By.CSS_SELECTOR, ".drp-course-date-item:nth-child(9) .drp-course-date-item-booking-button > span")
     # TODO: exclude the dates with the `drp-date-not-relevant` class.
     # Selenium has a not, but unclear how to apply it to the class of the containing elements.
     # https://www.qafox.com/selenium-locators-using-not-in-css-selectors/ (too long article)
@@ -65,4 +65,3 @@ class TestBouldergartenBookingTest():
     element = self.driver.find_element(By.CSS_SELECTOR, ".drp-row:nth-child(2) > .drp-col-12 > input")
     element.send_keys("Janek")
     time.sleep(1)
-    
