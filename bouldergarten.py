@@ -75,4 +75,6 @@ def book():
   driver.find_element(By.ID, "drp-course-booking-client-terms-cb").click()
   driver.find_element(By.ID, "drp-course-booking-data-processing-cb").click()
 
-  driver.find_element(By.CSS_SELECTOR, ".drp-course-booking-continue").click()
+  # Be careful not to spam reservations!
+  # driver.find_element(By.CSS_SELECTOR, ".drp-course-booking-continue").click()
+  return True
