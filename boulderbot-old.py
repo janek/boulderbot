@@ -19,7 +19,7 @@ import logging
 
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
-from bouldergarten import book
+from bouldergarten import check, book
 
 # Enable logging
 logging.basicConfig(
@@ -46,10 +46,13 @@ def help_command(update: Update, context: CallbackContext) -> None:
 
 
 def react_to_message(update: Update, context: CallbackContext) -> None:
-    """Echo the user message."""
+    """Reply to the user's message."""
     if update.message.text == "book":
-        update.message.reply_text("I'll do my best")
         answer = book()
+        if answer:
+            update.message.reply_text(answer)
+    elif update.message.text == "check":
+        answer = check()
         if answer:
             update.message.reply_text(answer)
     else:
