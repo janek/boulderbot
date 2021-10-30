@@ -52,6 +52,7 @@ def react_to_message(update: Update, context: CallbackContext) -> None:
         if answer:
             update.message.reply_text(answer)
     elif update.message.text == "check":
+        update.message.reply_text("Please hold!")
         answer = check()
         if answer:
             update.message.reply_text(answer)

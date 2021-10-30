@@ -23,7 +23,7 @@ urbansports_number = "100047904"
 inputs_group = [first_name, surname, postcode, mobile_number, landline_number, email]
 
 options = Options()
-options.headless = False # TODO: true
+options.headless = True # TODO: true
 driver = webdriver.Firefox(options=options)
 
 def check():
@@ -57,7 +57,7 @@ def check():
   element = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
   dates = process_dates(element.get_attribute('innerHTML'))
 
-  return date
+  return dates
 
 def book():
   return "Coming soon!"
