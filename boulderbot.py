@@ -28,6 +28,7 @@ def reply(update, context):
         if answer:
             update.message.reply_text(answer)
     elif update.message.text == "check":
+        update.message.reply_text("Please hold!")
         answer = check()
         if answer:
             update.message.reply_text(answer)
