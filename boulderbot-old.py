@@ -49,9 +49,9 @@ def react_to_message(update: Update, context: CallbackContext) -> None:
     """Echo the user message."""
     if update.message.text == "book":
         update.message.reply_text("I'll do my best")
-        booked = book()
-        if booked:
-            update.message.reply_text("Booked!")
+        answer = book()
+        if answer:
+            update.message.reply_text(answer)
     else:
         update.message.reply_text(update.message.text)
 
