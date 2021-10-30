@@ -1,4 +1,3 @@
-import pytest
 import time
 import re
 from selenium import webdriver
