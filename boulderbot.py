@@ -1,14 +1,15 @@
+import os
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import os
+from bouldergarten import book, check
+
 PORT = int(os.environ.get('PORT', 5000))
+TOKEN = '2020408861:AAGoHkFiO1P231Ymv6BnMYDfmk006SpzucM'
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
-
 logger = logging.getLogger(__name__)
-TOKEN = '2020408861:AAGoHkFiO1P231Ymv6BnMYDfmk006SpzucM'
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
@@ -20,9 +21,19 @@ def help(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
 
-def echo(update, context):
-    """Echo the user message."""
-    update.message.reply_text(update.message.text)
+def reply(update, context):
+    """Reply to the user's message."""
+    if update.message.text == "book":
+        answer = book()
+        if answer:
+            update.message.reply_text(answer)
+    elif update.message.text == "check":
+        answer = check()
+        if answer:
+            update.message.reply_text(answer)
+    else:
+        update.message.reply_text(update.message.text)
+
 
 def error(update, context):
     """Log Errors caused by Updates."""
@@ -42,7 +53,7 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
 
-    # on noncommand i.e message - echo the message on Telegram
+    # on noncommand i.e message - reply the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
 
     # log all errors
