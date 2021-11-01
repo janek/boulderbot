@@ -11,6 +11,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 
 first_name = "Janek"
 surname = "Szynal"
@@ -30,13 +31,22 @@ def load_driver():
   # chrome_options.add_argument("--no-sandbox")
   # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
-  options = webdriver.ChromeOptions()
-  options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-  options.add_argument("--remote-debugging-port=9222")
-  options.add_argument("--headless")
-  options.add_argument("--disable-gpu")
-  options.add_argument("--no-sandbox")
-  driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=options)
+  chrome_options = webdriver.ChromeOptions()
+  chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+  chrome_options.add_argument("--headless")
+  chrome_options.add_argument("--disable-dev-shm-usage")
+  chrome_options.add_argument("--disable-gpu")
+  chrome_options.add_argument("--no-sandbox")
+  service = Service(os.environ.get("CHROMEDRIVER_PATH"))
+  driver = webdriver.Chrome(options=chrome_options, service=service)
+
+  # options = webdriver.ChromeOptions()
+  # options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+  # options.add_argument("--remote-debugging-port=9222")
+  # options.add_argument("--headless")
+  # options.add_argument("--disable-gpu")
+  # options.add_argument("--no-sandbox")
+  # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=options)
   return driver
 
 driver = load_driver()
