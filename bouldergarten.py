@@ -30,17 +30,15 @@ def load_driver():
   # chrome_options.add_argument("--no-sandbox")
   # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
-  # enable trace level for debugging
-  # options.log.level = "trace"
+  options.log.level = "trace"
   options = webdriver.ChromeOptions()
   options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-  options.add_argument("-remote-debugging-port=9222")
-  options.add_argument("-headless")
-  options.add_argument("-disable-gpu")
-  options.add_argument("-no-sandbox")
-  driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=options)
+  options.add_argument("--remote-debugging-port=9222")
+  options.add_argument("--headless")
+  options.add_argument("--disable-gpu")
+  options.add_argument("--no-sandbox")
+  driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=_options)
   return driver
-
 
 driver = load_driver()
 
