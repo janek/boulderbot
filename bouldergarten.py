@@ -10,7 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 first_name = "Janek"
@@ -24,24 +24,30 @@ urbansports_number = "100047904"
 inputs_group = [first_name, surname, postcode, mobile_number, landline_number, email]
 
 def load_driver():
-  options = webdriver.FirefoxOptions()
+  # chrome_options = webdriver.ChromeOptions()
+  # chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+  # chrome_options.add_argument("--headless")
+  # chrome_options.add_argument("--disable-dev-shm-usage")
+  # chrome_options.add_argument("--no-sandbox")
+  # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+
   # enable trace level for debugging
   # options.log.level = "trace"
-  options.add_argument("-remote-debugging-port=9224")
+  options = webdriver.ChromeOptions()
+  options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+  options.add_argument("-remote-debugging-port=9222")
   options.add_argument("-headless")
   options.add_argument("-disable-gpu")
   options.add_argument("-no-sandbox")
-  binary = FirefoxBinary(os.environ.get('FIREFOX_BIN'))
-  firefox_driver = webdriver.Firefox(
-    firefox_binary=binary,
-    executable_path=os.environ.get('GECKODRIVER_PATH'),
-    options=options)
-  return firefox_driver
+  driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+  return driver
+
 
 driver = load_driver()
 
 def check():
   driver.get("https://bouldergarten.de/")
+
 
   # XXX: consider replacing JS clicks with clearer syntax clicks()
   # (the issue that forced our usage of JS click might be resolved by waits)

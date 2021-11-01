@@ -42,6 +42,7 @@ def error(update, context):
 
 def main():
     """Start the bot."""
+    logger.info('Starting bot')
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
@@ -70,6 +71,7 @@ def main():
     # SIGTERM or SIGABRT. This should be used most of the time, since
     # start_polling() is non-blocking and will stop the bot gracefully.
     updater.idle()
+    logger.info('Started bot')
 
 if __name__ == '__main__':
     main()
