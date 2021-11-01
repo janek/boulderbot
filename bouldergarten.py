@@ -23,8 +23,6 @@ urbansports_number = "100047904"
 
 inputs_group = [first_name, surname, postcode, mobile_number, landline_number, email]
 
-driver = load_driver()
-
 def load_driver():
   options = webdriver.FirefoxOptions()
   # enable trace level for debugging
@@ -39,6 +37,8 @@ def load_driver():
     executable_path=os.environ.get('GECKODRIVER_PATH'),
     options=options)
   return firefox_driver
+
+driver = load_driver()
 
 def check():
   driver.get("https://bouldergarten.de/")
