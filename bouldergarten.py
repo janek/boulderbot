@@ -11,7 +11,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 first_name = "Janek"
 surname = "Szynal"
@@ -39,7 +38,7 @@ def load_driver():
   options.add_argument("-headless")
   options.add_argument("-disable-gpu")
   options.add_argument("-no-sandbox")
-  driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+  driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=options)
   return driver
 
 
