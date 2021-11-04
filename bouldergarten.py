@@ -1,6 +1,7 @@
-import time
-import re
 import os
+import re
+import time
+import logging
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -22,6 +23,11 @@ email = "jan.szynal+bouldergarten@gmail.com"
 urbansports_number = "100047904"
 
 inputs_group = [first_name, surname, postcode, mobile_number, landline_number, email]
+
+# Enable logging
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def load_driver():
   # chrome_options = webdriver.ChromeOptions()
@@ -51,9 +57,8 @@ def load_driver():
 
 driver = load_driver()
 
-def check():
+def open_bookings():
   driver.get("https://bouldergarten.de/")
-
 
   # XXX: consider replacing JS clicks with clearer syntax clicks()
   # (the issue that forced our usage of JS click might be resolved by waits)
@@ -74,6 +79,8 @@ def check():
   element = driver.find_element(By.CSS_SELECTOR, ".drp-calendar-day-dates")
   driver.execute_script("arguments[0].click();", element)
 
+def check():
+  open_bookings()
   # XXX: We might have to exclude the dates with the `drp-date-not-relevant` class, unless date is pre-set
   # Selenium has a not, but unclear how to apply it to the class of the containing elements.
   # https://www.qafox.com/selenium-locators-using-not-in-css-selectors/ (too long article)
@@ -85,6 +92,11 @@ def check():
   return dates
 
 def book():
+  user = update.effective_user
+  logger.info("Booking for user "+ user)
+  if user == "rrszynka":
+    open_bookings()
+    logger.info("Booking for user "+ user)
   return "Coming soon!"
   # element = driver.find_element(By.CSS_SELECTOR, ".drp-course-date-item:nth-child(9) .drp-course-date-item-booking-button > span")
   # driver.execute_script("arguments[0].click();", element)
