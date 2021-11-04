@@ -29,11 +29,14 @@ def check_command(update, context):
     if answer:
         update.message.reply_text(answer)
 
-def start(update, context):
+def register_command(update, context):
+    logger.info("Registration started")
+
+def start_command(update, context):
     """Send a message when the command /start is issued."""
     update.message.reply_text('Hi!')
 
-def help(update, context):
+def help_command(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
 
@@ -71,8 +74,9 @@ def main():
     dp = updater.dispatcher
 
     # on different commands - answer in Telegram
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("help", help))
+    dp.add_handler(CommandHandler("start", start_command))
+    dp.add_handler(CommandHandler("help", help_command))
+    dp.add_handler(CommandHandler("register", register_command))
     dp.add_handler(CommandHandler("book", book_command))
     dp.add_handler(CommandHandler("check", check_command))
 
