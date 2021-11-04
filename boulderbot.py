@@ -1,8 +1,10 @@
 import os
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from bouldergarten import book, check
+from bouldergarten import *
 
+
+LOCAL = True
 PORT = int(os.environ.get('PORT', 5000))
 TOKEN = '2020408861:AAGoHkFiO1P231Ymv6BnMYDfmk006SpzucM'
 
@@ -13,6 +15,19 @@ logger = logging.getLogger(__name__)
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
+def book(update, context):
+    update.message.reply_text("Booking, please hold!")
+    # user = update.effective_user
+    answer = bouldergarten.book()
+    if answer:
+        update.message.reply_text(answer)
+
+def check(update, context):
+    update.message.reply_text("Checking, please hold!")
+    answer = bouldergarten.check()
+    if answer:
+        update.message.reply_text(answer)
+
 def start(update, context):
     """Send a message when the command /start is issued."""
     update.message.reply_text('Hi!')
@@ -20,6 +35,9 @@ def start(update, context):
 def help(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
+
+def quote(update, context):
+    update.message.reply_text('Adjusted Bukowski quote goes here')
 
 def reply(update, context):
     """Reply to the user's message."""
@@ -54,9 +72,11 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
+    dp.add_handler(CommandHandler("book", book))
+    dp.add_handler(CommandHandler("check", check))
 
     # on noncommand i.e message - reply the message on Telegram
-    dp.add_handler(MessageHandler(Filters.text, reply))
+    dp.add_handler(MessageHandler(Filters.text, quote))
 
     # log all errors
     dp.add_error_handler(error)
@@ -64,8 +84,8 @@ def main():
     # Start the Bot
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
-                          url_path=TOKEN)
-    updater.bot.setWebhook('https://ricchardo-bukowski.herokuapp.com/' + TOKEN)
+                          url_path=TOKEN,
+                          webhook_url="https://ricchardo-bukowski.herokuapp.com/" + TOKEN)
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
