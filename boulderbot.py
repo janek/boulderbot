@@ -1,7 +1,7 @@
 import os
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from bouldergarten import *
+from bouldergarten import book, check
 
 
 LOCAL = True
@@ -15,16 +15,16 @@ logger = logging.getLogger(__name__)
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
-def book(update, context):
+def book_command(update, context):
     update.message.reply_text("Booking, please hold!")
     # user = update.effective_user
-    answer = bouldergarten.book()
+    answer = book()
     if answer:
         update.message.reply_text(answer)
 
-def check(update, context):
+def check_command(update, context):
     update.message.reply_text("Checking, please hold!")
-    answer = bouldergarten.check()
+    answer = check()
     if answer:
         update.message.reply_text(answer)
 
@@ -72,8 +72,8 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
-    dp.add_handler(CommandHandler("book", book))
-    dp.add_handler(CommandHandler("check", check))
+    dp.add_handler(CommandHandler("book", book_command))
+    dp.add_handler(CommandHandler("check", check_command))
 
     # on noncommand i.e message - reply the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, quote))
