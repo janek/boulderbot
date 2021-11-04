@@ -91,9 +91,7 @@ def check():
   dates = process_dates(element.get_attribute('innerHTML'))
   return dates
 
-def book():
-  user = update.effective_user
-  logger.info("Booking for user "+ user)
+def book(user):
   if user == "rrszynka":
     open_bookings()
     logger.info("Booking for user "+ user)

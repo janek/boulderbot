@@ -17,9 +17,10 @@ logger = logging.getLogger(__name__)
 # context. Error handlers also receive the raised TelegramError object in error.
 def book_command(update, context):
     update.message.reply_text("Booking, please hold!")
-    # user = update.effective_user
-    answer = book()
+    user = update.effective_user
+    answer = book(user)
     if answer:
+        logger.info("hi")
         update.message.reply_text(answer)
 
 def check_command(update, context):
