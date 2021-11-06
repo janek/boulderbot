@@ -12,6 +12,16 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from bouldergarten import book, check, process_dates, load_driver, open_bookings
 
+# TODO: pull from DB
+first_name = "Janek"
+surname = "Szynal"
+postcode = "00000"
+mobile_number = "000000000"
+landline_number = "000000000"
+email = "jan.szynal+bouldergarten@gmail.com"
+urbansports_number = "100047904"
+
+inputs_group = [first_name, surname, postcode, mobile_number, landline_number, email]
 # driver = load_driver()
 driver = webdriver.Firefox()
 open_bookings(driver)
@@ -27,4 +37,28 @@ spans_with_text = dates_wrapper.find_elements_by_xpath(f".//*[contains(text(), '
 # XXX: this entire process should be improved
 correct_span = spans_with_text[-1]
 # Filter to find the one where this is the start time, not the end time
-print(correct_span.find_element_by_xpath("../../..").get_attribute('outerHTML'))
+span_and_button_common_parent = correct_span.find_element_by_xpath("../../..")
+booking_button = span_and_button_common_parent.find_element(By.CSS_SELECTOR, ".drp-course-date-item-booking-button")
+driver.execute_script("arguments[0].click();", booking_button)
+
+# Fill out the form
+for i, value in enumerate(inputs_group):
+  time.sleep(0.5)
+  element = driver.find_element(By.CSS_SELECTOR, f".drp-row:nth-child({i+2}) > .drp-col-12 > input")
+  driver.execute_script("arguments[0].click();", element)
+  element.send_keys(inputs_group[i])
+
+# self.driver.find_element(By.CSS_SELECTOR, ".drp-course-date-item:nth-child(9) .drp-course-date-item-booking-button > span").click()
+# self.driver.find_element(By.CSS_SELECTOR, ".drp-row:nth-child(2) > .drp-col-12 > input").click()
+# self.driver.find_element(By.CSS_SELECTOR, ".drp-row:nth-child(2) > .drp-col-12 > input").send_keys("Janek")
+# self.driver.find_element(By.CSS_SELECTOR, ".drp-row:nth-child(3) input").send_keys("Szynal")
+# self.driver.find_element(By.CSS_SELECTOR, ".drp-row:nth-child(4) input").send_keys("12045")
+# self.driver.find_element(By.CSS_SELECTOR, ".drp-row:nth-child(5) input").send_keys("00000000")
+# self.driver.find_element(By.ID, "drp-course-booking-person-phone-landline").send_keys("00000000")
+# self.driver.find_element(By.ID, "drp-course-booking-person-email").send_keys("jan.szynal@gmail.com")
+# dropdown = self.driver.find_element(By.CSS_SELECTOR, ".drp-course-booking-tariff-select > .drp-w-100")
+# dropdown.find_element(By.XPATH, "//option[. = 'USC-Mitglied (Urban Sports Club)']").click()
+# self.driver.find_element(By.CSS_SELECTOR, "option:nth-child(8)").click()
+# self.driver.execute_script("window.scrollTo(0,4744)")
+# self.driver.find_element(By.CSS_SELECTOR, ".drp-col-8:nth-child(6) > .drp-w-100").click()
+# self.driver.find_element(By.CSS_SELECTOR, ".drp-col-8:nth-child(6) > .drp-w-100").send_keys("100047904")# self.driver.find_element(By.ID, "drp-course-booking-client-terms-cb").click()# self.driver.find_element(By.ID, "drp-course-booking-data-processing-cb").click()# # self.driver.find_element(By.CSS_SELECTOR, ".drp-course-booking-continue").click()
