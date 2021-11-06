@@ -1,6 +1,6 @@
 import os
 import logging
-import requests
+# import requests
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from bouldergarten import book, check
 
@@ -33,7 +33,7 @@ def check_command(update, context):
 def register_command(update, context):
     logger.info("Registration started")
     # Get user data, put in DB
-    r = requests.post("https://sheetdb.io/api/v1/3d1qw3odqb5kl", data={"first_name": "Rick"})
+    # r = requests.post("https://sheetdb.io/api/v1/3d1qw3odqb5kl", data={"first_name": "Rick"})
     # TODO: check response
 
 def start_command(update, context):
