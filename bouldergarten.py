@@ -57,7 +57,7 @@ def load_driver():
 
 driver = load_driver()
 
-def open_bookings():
+def open_bookings(driver):
   driver.get("https://bouldergarten.de/")
 
   # XXX: consider replacing JS clicks with clearer syntax clicks()
