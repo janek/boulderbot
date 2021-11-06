@@ -80,7 +80,7 @@ def open_bookings(driver):
   driver.execute_script("arguments[0].click();", element)
 
 def check():
-  open_bookings()
+  open_bookings(driver)
   # XXX: We might have to exclude the dates with the `drp-date-not-relevant` class, unless date is pre-set
   # Selenium has a not, but unclear how to apply it to the class of the containing elements.
   # https://www.qafox.com/selenium-locators-using-not-in-css-selectors/ (too long article)
@@ -93,7 +93,7 @@ def check():
 
 def book(user):
   if user == "rrszynka":
-    open_bookings()
+    open_bookings(driver)
     logger.info("Booking for user "+ user)
   return "Coming soon!"
   # element = driver.find_element(By.CSS_SELECTOR, ".drp-course-date-item:nth-child(9) .drp-course-date-item-booking-button > span")
