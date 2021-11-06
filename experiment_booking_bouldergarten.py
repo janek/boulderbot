@@ -2,6 +2,7 @@
 import pytest
 import time
 import json
+import logging
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -9,37 +10,21 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from bouldergarten import book, check, process_dates, load_driver, open_bookings
 
-class TestUptobooking():
-  def setup_method(self, method):
-    self.driver = webdriver.Firefox()
-    self.vars = {}
-  
-  def teardown_method(self, method):
-    self.driver.quit()
-  
-  def test_uptobooking(self):
-    self.driver.get("https://bouldergarten.de/")
-    self.driver.set_window_size(1340, 670)
-    self.driver.find_element(By.ID, "eintritt-buchen").click()
-    self.driver.find_element(By.CSS_SELECTOR, ".drp-course-list-group:nth-child(3) .drp-course-list-item-label").click()
-    self.driver.find_element(By.CSS_SELECTOR, ".drp-calendar-day-dates:nth-child(7)").click()
-    self.driver.execute_script("window.scrollTo(0,3945)")
-    self.driver.find_element(By.CSS_SELECTOR, ".drp-course-date-item:nth-child(9) .drp-course-date-item-booking-button > span").click()
-    self.driver.find_element(By.CSS_SELECTOR, ".drp-row:nth-child(2) > .drp-col-12 > input").click()
-    self.driver.find_element(By.CSS_SELECTOR, ".drp-row:nth-child(2) > .drp-col-12 > input").send_keys("Janek")
-    self.driver.find_element(By.CSS_SELECTOR, ".drp-row:nth-child(3) input").send_keys("Szynal")
-    self.driver.find_element(By.CSS_SELECTOR, ".drp-row:nth-child(4) input").send_keys("12045")
-    self.driver.find_element(By.CSS_SELECTOR, ".drp-row:nth-child(5) input").send_keys("00000000")
-    self.driver.find_element(By.ID, "drp-course-booking-person-phone-landline").send_keys("00000000")
-    self.driver.find_element(By.ID, "drp-course-booking-person-email").send_keys("jan.szynal@gmail.com")
+# driver = load_driver()
+driver = webdriver.Firefox()
+open_bookings(driver)
 
-    dropdown = self.driver.find_element(By.CSS_SELECTOR, ".drp-course-booking-tariff-select > .drp-w-100")
-    dropdown.find_element(By.XPATH, "//option[. = 'USC-Mitglied (Urban Sports Club)']").click()
-    self.driver.find_element(By.CSS_SELECTOR, "option:nth-child(8)").click()
-    self.driver.execute_script("window.scrollTo(0,4744)")
-    self.driver.find_element(By.CSS_SELECTOR, ".drp-col-8:nth-child(6) > .drp-w-100").click()
-    self.driver.find_element(By.CSS_SELECTOR, ".drp-col-8:nth-child(6) > .drp-w-100").send_keys("100047904")
-    self.driver.find_element(By.ID, "drp-course-booking-client-terms-cb").click()
-    self.driver.find_element(By.ID, "drp-course-booking-data-processing-cb").click()
-  
+time.sleep(0.5)
+desired_timeslot = "19:30"
+# Limit to dates for normal bookings (excluding yoga and courses)
+dates_wrapper = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
+# Find spans that contain the chosen time
+spans_with_text = dates_wrapper.find_elements_by_xpath(f".//*[contains(text(), '{desired_timeslot}')]")
+# The XPATH search returns spans with "17:30-19:30" and "19:30-21:30" for a desired time "19:30"
+# The one we want is therefore the latter (or last)
+# XXX: this entire process should be improved
+correct_span = spans_with_text[-1]
+# Filter to find the one where this is the start time, not the end time
+print(correct_span.find_element_by_xpath("../../..").get_attribute('outerHTML'))
