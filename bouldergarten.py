@@ -61,23 +61,25 @@ def open_bookings(driver):
   driver.get("https://bouldergarten.de/")
 
   # XXX: consider replacing JS clicks with clearer syntax clicks()
-  # (the issue that forced our usage of JS click might be resolved by waits)
+  # 1. the issue that forced our usage of JS click might be resolved by waits)
+  # 2. JS "clicks" don't seem to work on non-clickable HTML elems, while "mouse" clicks() do
   # https://stackoverflow.com/questions/48665001/can-not-click-on-a-element-elementclickinterceptedexception-in-splinter-selen
 
-  # XXX: Consider using WebDriverWait instead of Python time.sleep() - should be faster to execute
+  # XXX: Consider using Wselenium.common.exceptions.NoSuchElementExceptionebDriverWait instead of Python time.sleep() - should be faster to execute
   # WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "eintritt-buchen")))
+  element = driver.find_element(By.ID, "cn-accept-cookie")
+  driver.execute_script("arguments[0].click();", element)
 
+  time.sleep(0.5)
   # Book entry button
-  element = driver.find_element(By.ID, "eintritt-buchen")
-  driver.execute_script("arguments[0].click();", element)
+  element = driver.find_element(By.ID, "eintritt-buchen").click()
+  # driver.execute_script("arguments[0].click();", element)
 
   time.sleep(0.5)
-  element = driver.find_element(By.CSS_SELECTOR, ".drp-course-list-item-eintritt-slot")
-  driver.execute_script("arguments[0].click();", element)
+  element = driver.find_element(By.CSS_SELECTOR, ".drp-course-list-item-eintritt-slot").click()
 
   time.sleep(0.5)
-  element = driver.find_element(By.CSS_SELECTOR, ".drp-calendar-day-dates")
-  driver.execute_script("arguments[0].click();", element)
+  element = driver.find_element(By.CSS_SELECTOR, ".drp-calendar-day-dates").click()
 
 def check():
   open_bookings(driver)
