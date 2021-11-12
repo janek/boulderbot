@@ -72,7 +72,7 @@ def open_bookings(driver):
   driver.execute_script("arguments[0].click();", element)
 
   time.sleep(0.5)
-  element = driver.find_element(By.CSS_SELECTOR, ".drp-course-list-group-halleneintritt:nth-child(3) a")
+  element = driver.find_element(By.CSS_SELECTOR, ".drp-course-list-item-eintritt-slot")
   driver.execute_script("arguments[0].click();", element)
 
   time.sleep(0.5)
