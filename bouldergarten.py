@@ -29,14 +29,13 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def load_driver():
-  # chrome_options = webdriver.ChromeOptions()
-  # chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-  # chrome_options.add_argument("--headless")
-  # chrome_options.add_argument("--disable-dev-shm-usage")
-  # chrome_options.add_argument("--no-sandbox")
-  # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+#TODO: move
+def program_is_running_on_heroku() -> bool:
+    return ('IS_HEROKU' in os.environ)
 
+
+def load_driver():
+  # return webdriver.Firefox() # TEMP
   chrome_options = webdriver.ChromeOptions()
   chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
   chrome_options.add_argument("--headless")
@@ -45,14 +44,6 @@ def load_driver():
   chrome_options.add_argument("--no-sandbox")
   service = Service(os.environ.get("CHROMEDRIVER_PATH"))
   driver = webdriver.Chrome(options=chrome_options, service=service)
-
-  # options = webdriver.ChromeOptions()
-  # options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-  # options.add_argument("--remote-debugging-port=9222")
-  # options.add_argument("--headless")
-  # options.add_argument("--disable-gpu")
-  # options.add_argument("--no-sandbox")
-  # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=options)
   return driver
 
 driver = load_driver()
@@ -65,10 +56,27 @@ def open_bookings(driver):
   # 2. JS "clicks" don't seem to work on non-clickable HTML elems, while "mouse" clicks() do
   # https://stackoverflow.com/questions/48665001/can-not-click-on-a-element-elementclickinterceptedexception-in-splinter-selen
 
+  try:
+    time.sleep(0.5)
+    driver.find_element(By.ID, "cn-accept-cookie").click() # XXX: may be unnecessary
+    print("Cookie accepted")
+  except Exception as e:
+    print(e)
+    print("cookie not found")
+
   # XXX: Consider using Wselenium.common.exceptions.NoSuchElementExceptionebDriverWait instead of Python time.sleep() - should be faster to execute
   # WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "eintritt-buchen")))
   element = driver.find_element(By.ID, "cn-accept-cookie")
   driver.execute_script("arguments[0].click();", element)
+
+  try:
+    time.sleep(0.5)
+    driver.find_element(By.ID, "cn-accept-cookie").click() # XXX: may be unnecessary
+    print("Cookie accepted")
+  except Exception as e:
+    print(e)
+    print("cookie not found")
+
 
   time.sleep(0.5)
   # Book entry button
@@ -78,7 +86,7 @@ def open_bookings(driver):
   time.sleep(0.5)
   element = driver.find_element(By.CSS_SELECTOR, ".drp-course-list-item-eintritt-slot").click()
 
-  time.sleep(0.5)
+  time.sleep(2.5)
   element = driver.find_element(By.CSS_SELECTOR, ".drp-calendar-day-dates").click()
 
 def check():

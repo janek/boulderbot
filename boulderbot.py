@@ -8,6 +8,7 @@ from bouldergarten import book, check
 LOCAL = True
 PORT = int(os.environ.get('PORT', 5000))
 TOKEN = '2020408861:AAGoHkFiO1P231Ymv6BnMYDfmk006SpzucM'
+USER = "rrszynka"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -36,7 +37,7 @@ def register_command(update, context):
     # r = requests.post("https://sheetdb.io/api/v1/3d1qw3odqb5kl", data={"first_name": "Rick"})
     # TODO: check response
 
-def start_command(update, context):
+def start(update, context):
     """Send a message when the command /start is issued."""
     update.message.reply_text('Hi!')
 
@@ -45,12 +46,12 @@ def help_command(update, context):
     update.message.reply_text('Help!')
 
 def quote(update, context):
-    update.message.reply_text('Adjusted Bukowski quote goes here')
+    update.message.reply_text(update.message.text)
 
 def reply(update, context):
     """Reply to the user's message."""
     if update.message.text == "book":
-        answer = book()
+        answer = book(USER)
         if answer:
             update.message.reply_text(answer)
     elif update.message.text == "check":
@@ -64,6 +65,9 @@ def reply(update, context):
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Error "%s" caused by update "%s"', update, context.error)
+
+def program_is_running_on_heroku() -> bool:
+    return ('IS_HEROKU' in os.environ)
 
 def main():
     """Start the bot."""
