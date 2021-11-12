@@ -97,9 +97,9 @@ So., 31.10.21, 20:00 - 22:00
 from pprint import pprint
 dates = re.sub('<[^>]*>', '', dates)
 lines = [line.strip() for line in dates.splitlines() if len(re.sub('\s*', '', line)) > 0 and not "Buchen" in line]
-pprint(lines)
-# date_strings = lines[1::2]
-# status_strings = lines[::2]
 
-# data = [a + " → " + b for a, b in list(zip(date_strings, status_strings)) if not "ausgebucht" in b]
-# pprint(data)
+date_strings = lines[1::2]
+status_strings = lines[::2]
+
+data = [a + " → " + b for a, b in list(zip(date_strings, status_strings)) if not "ausgebucht" in b]
+pprint(data)
