@@ -72,6 +72,7 @@ def program_is_running_on_heroku() -> bool:
 def main():
     """Start the bot."""
     logger.info('Starting bot')
+    logger.info("Running on heroku" if program_is_running_on_heroku() else "Running locally")
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
