@@ -131,8 +131,8 @@ def book(user):
 def process_dates(dates):
   dates = re.sub('<[^>]*>', '', dates)
   lines = [line.strip() for line in dates.splitlines() if len(re.sub('\s*', '', line)) > 0 and not "Buchen" in line and not "begonnen" in line]
-  date_strings = lines[1::2]
-  status_strings = lines[::2]
+  date_strings = lines[1::3]
+  status_strings = lines[::3]
   status_strings = [status.replace("freie Plätze", "slots").replace("freier Platz", "slot") for status in status_strings]
   data = [a + " → " + b for a, b in list(zip(date_strings, status_strings)) if not "ausgebucht" in b and not "abgelaufen" in b]
   return "\n".join(data)
