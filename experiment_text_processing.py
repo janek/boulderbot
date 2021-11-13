@@ -201,7 +201,7 @@ dates = re.sub('<[^>]*>', '', dates)
 lines = [line.strip() for line in dates.splitlines() if len(re.sub('\s*', '', line)) > 0 and not "Buchen" in line and not "begonnen" in line]
 # pprint(lines)
 
-date_strings = lines[1::3]
+date_strings = lines[2::3]
 status_strings = lines[::3]
 data = [a + " → " + b for a, b in list(zip(date_strings, status_strings)) if not "ausgebucht" in b]
 pprint(data)

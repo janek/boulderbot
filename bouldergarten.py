@@ -50,8 +50,7 @@ driver = load_driver()
 
 def open_bookings(driver):
   driver.get("https://bouldergarten.de/")
-
-  # XXX: consider replacing JS clicks with clearer syntax clicks()
+  # XXX: JS "clicks" vs "mouse" clicks()
   # 1. the issue that forced our usage of JS click might be resolved by waits)
   # 2. JS "clicks" don't seem to work on non-clickable HTML elems, while "mouse" clicks() do
   # https://stackoverflow.com/questions/48665001/can-not-click-on-a-element-elementclickinterceptedexception-in-splinter-selen
@@ -69,16 +68,6 @@ def open_bookings(driver):
   element = driver.find_element(By.ID, "cn-accept-cookie")
   driver.execute_script("arguments[0].click();", element)
 
-  try:
-    time.sleep(0.5)
-    driver.find_element(By.ID, "cn-accept-cookie").click() # XXX: may be unnecessary
-    print("Cookie accepted")
-  except Exception as e:
-    print(e)
-    print("cookie not found")
-
-
-  time.sleep(0.5)
   # Book entry button
   element = driver.find_element(By.ID, "eintritt-buchen").click()
   # driver.execute_script("arguments[0].click();", element)
@@ -86,7 +75,7 @@ def open_bookings(driver):
   time.sleep(0.5)
   element = driver.find_element(By.CSS_SELECTOR, ".drp-course-list-item-eintritt-slot").click()
 
-  time.sleep(2.5)
+  time.sleep(1)
   element = driver.find_element(By.CSS_SELECTOR, ".drp-calendar-day-dates").click()
 
 def check():
@@ -106,32 +95,11 @@ def book(user):
     open_bookings(driver)
     logger.info("Booking for user "+ user)
   return "Coming soon!"
-  # element = driver.find_element(By.CSS_SELECTOR, ".drp-course-date-item:nth-child(9) .drp-course-date-item-booking-button > span")
-  # driver.execute_script("arguments[0].click();", element)
-
-  # # Fill out the form
-  # for i, value in enumerate(inputs_group):
-  #   time.sleep(0.5)
-  #   element = driver.find_element(By.CSS_SELECTOR, f".drp-row:nth-child({i+2}) > .drp-col-12 > input")
-  #   driver.execute_script("arguments[0].click();", element)
-  #   element.send_keys(inputs_group[i])
-
-  # select = Select(driver.find_element(By.CSS_SELECTOR, ".drp-course-booking-tariff-select > .drp-w-100"))
-  # select.select_by_value("68083827")
-  # time.sleep(0.5)
-  # driver.find_element(By.CSS_SELECTOR, ".drp-col-8:nth-child(6) > .drp-w-100").send_keys("100047904")
-  # driver.find_element(By.ID, "drp-course-booking-client-terms-cb").click()
-  # driver.find_element(By.ID, "drp-course-booking-data-processing-cb").click()
-
-  # # Be careful not to spam reservations!
-  # # driver.find_element(By.CSS_SELECTOR, ".drp-course-booking-continue").click()
-  # return True
-
 
 def process_dates(dates):
   dates = re.sub('<[^>]*>', '', dates)
   lines = [line.strip() for line in dates.splitlines() if len(re.sub('\s*', '', line)) > 0 and not "Buchen" in line and not "begonnen" in line]
-  date_strings = lines[1::3]
+  date_strings = lines[2::3]
   status_strings = lines[::3]
   status_strings = [status.replace("freie Plätze", "slots").replace("freier Platz", "slot") for status in status_strings]
   data = [a + " → " + b for a, b in list(zip(date_strings, status_strings)) if not "ausgebucht" in b and not "abgelaufen" in b]
