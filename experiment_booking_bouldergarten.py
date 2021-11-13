@@ -27,30 +27,35 @@ driver = webdriver.Firefox()
 open_bookings(driver)
 
 time.sleep(0.5)
-desired_timeslot = "19:30"
+desired_timeslot = "20:00"
 # Limit to dates for normal bookings (excluding yoga and courses)
 dates_wrapper = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
 # Find spans that contain the chosen time
-spans_with_text = dates_wrapper.find_elements_by_xpath(f".//*[contains(text(), '{desired_timeslot}')]")
+# spans_with_text = dates_wrapper.find_elements_by0_xpath(f".//*[contains(text(), '{desired_timeslot}')]")
+spans_with_text = dates_wrapper.find_elements(By.CSS_SELECTOR, ".drp-course-date-item")
+
+print(spans_with_text[-1])
+book_button = spans_with_text[-1].find_element(By.CSS_SELECTOR, ".drp-course-date-item-booking-button")
+driver.execute_script("arguments[0].click();", book_button)
 # The XPATH search returns spans with "17:30-19:30" and "19:30-21:30" for a desired time "19:30"
 # The one we want is therefore the latter (or last)
 # XXX: this entire process should be improved
-correct_span = spans_with_text[-1]
+# correct_span = spans_with_text[-1]
 # Filter to find the one where this is the start time, not the end time
-span_and_button_common_parent = correct_span.find_element_by_xpath("../../..")
-booking_button = span_and_button_common_parent.find_element(By.CSS_SELECTOR, ".drp-course-date-item-booking-button")
-driver.execute_script("arguments[0].click();", booking_button)
+# span_and_button_common_parent = correct_span.find_element_by_xpath("../../..")
+# booking_button = span_and_button_common_parent.find_element(By.CSS_SELECTOR, ".drp-course-date-item-booking-button")
+# driver.execute_script("arguments[0].click();", booking_button)
 
-# Fill out the form
-for i, value in enumerate(inputs_group):
-  time.sleep(0.5)
-  element = driver.find_element(By.CSS_SELECTOR, f".drp-row:nth-child({i+2}) > .drp-col-12 > input")
-  driver.execute_script("arguments[0].click();", element)
-  element.send_keys(inputs_group[i])
+# # Fill out the form
+# for i, value in enumerate(inputs_group):
+#   time.sleep(0.5)
+#   element = driver.find_element(By.CSS_SELECTOR, f".drp-row:nth-child({i+2}) > .drp-col-12 > input")
+#   driver.execute_script("arguments[0].click();", element)
+#   element.send_keys(inputs_group[i])
 
-driver.find_element(By.ID, "drp-course-booking-person-email").send_keys("jan.szynal+bou@gmail.com")
-dropdown = driver.find_element(By.CSS_SELECTOR, ".drp-course-booking-tariff-select > .drp-w-100")
-time.sleep(0.5)
+# driver.find_element(By.ID, "drp-course-booking-person-email").send_keys("jan.szynal+bou@gmail.com")
+# dropdown = driver.find_element(By.CSS_SELECTOR, ".drp-course-booking-tariff-select > .drp-w-100")
+# time.sleep(0.5)
 # Works until now
 # dropdown.find_element(By.XPATH, "//option[. = 'USC-Mitglied (Urban Sports Club)']").click()
 # driver.find_element(By.CSS_SELECTOR, "option:nth-child(8)").click()
