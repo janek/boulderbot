@@ -36,6 +36,7 @@ def program_is_running_on_heroku() -> bool:
 
 def load_driver():
   # return webdriver.Firefox() # TEMP
+  print(f"Running on Heroku: {program_is_running_on_heroku()}")
   chrome_options = webdriver.ChromeOptions()
   chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
   chrome_options.add_argument("--headless")
