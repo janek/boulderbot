@@ -1,5 +1,5 @@
 import time
-from selenium_helpers import get_driver, process_date
+from selenium_helpers import get_driver, process_dates
 
 def check():
   driver = get_driver()
