@@ -2,7 +2,8 @@ import os
 import logging
 # import requests
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from bouldergarten import book, check
+import bouldergarten
+import boulderklub
 
 
 LOCAL = True
@@ -27,8 +28,10 @@ def book_command(update, context):
 
 def check_command(update, context):
     update.message.reply_text("Checking, please hold!")
-    answer = check()
-    if answer:
+    bouldergarten_answer = bouldergarten.check()
+    boulderklub_answer = boulderklub.check()
+    if boulderklub_answer and bouldergarten_answer:
+        answer = f"♣️ Boulderklub: \n{boulderklub_answer} \n\n 🌱Bouldergarten: \n {bouldergarten_answer}"
         update.message.reply_text(answer)
 
 def register_command(update, context):
