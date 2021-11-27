@@ -4,6 +4,7 @@ import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import bouldergarten
 import boulderklub
+import time
 
 
 LOCAL = True
@@ -28,11 +29,18 @@ def book_command(update, context):
 
 def check_command(update, context):
     update.message.reply_text("Checking, please hold!")
-    bouldergarten_answer = bouldergarten.check()
+
+    start_time = time.time()
     boulderklub_answer = boulderklub.check()
-    if boulderklub_answer and bouldergarten_answer:
-        answer = f"♣️ Boulderklub:\n{boulderklub_answer}\n\n🌱 Bouldergarten:\n{bouldergarten_answer}"
-        update.message.reply_text(answer)
+    if boulderklub_answer:
+        end_time = time.time()
+        update.message.reply_text(f"♣️ Boulderklub ({round(end_time - start_time, 2)}s):\n{boulderklub_answer}")
+
+    start_time = time.time()
+    bouldergarten_answer = bouldergarten.check()
+    if bouldergarten_answer:
+        end_time = time.time()
+        update.message.reply_text(f"🌱 Bouldergarten ({round(end_time - start_time, 2)}s):\n{bouldergarten_answer}")
 
 def register_command(update, context):
     logger.info("Registration started")
