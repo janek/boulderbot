@@ -1,4 +1,5 @@
 import time
+from selenium.webdriver.common.by import By
 from selenium_helpers import get_driver, process_dates
 
 driver = get_driver()
