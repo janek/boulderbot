@@ -51,20 +51,6 @@ def help_command(update, context):
 def quote(update, context):
     update.message.reply_text(update.message.text)
 
-def reply(update, context):
-    """Reply to the user's message."""
-    if update.message.text == "book":
-        answer = book(USER)
-        if answer:
-            update.message.reply_text(answer)
-    elif update.message.text == "check":
-        update.message.reply_text("Please hold!")
-        answer = check()
-        if answer:
-            update.message.reply_text(answer)
-    else:
-        update.message.reply_text(update.message.text)
-
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Error "%s" caused by update "%s"', update, context.error)
