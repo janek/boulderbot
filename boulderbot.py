@@ -31,7 +31,7 @@ def check_command(update, context):
     bouldergarten_answer = bouldergarten.check()
     boulderklub_answer = boulderklub.check()
     if boulderklub_answer and bouldergarten_answer:
-        answer = f"♣️ Boulderklub: \n{boulderklub_answer} \n\n 🌱Bouldergarten: \n {bouldergarten_answer}"
+        answer = f"♣️ Boulderklub:\n{boulderklub_answer}\n\n🌱Bouldergarten:\n{bouldergarten_answer}"
         update.message.reply_text(answer)
 
 def register_command(update, context):
@@ -80,20 +80,19 @@ def main():
     # on noncommand i.e message - reply the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, quote))
 
-    # log all errors
+    # on any error caused by message or command
     dp.add_error_handler(error)
-    logger.info('Starting webhook')
 
     # Start the Bot
-    updater.start_webhook(listen="0.0.0.0",
-                          port=int(PORT),
-                          url_path=TOKEN,
-                          webhook_url="https://ricchardo-bukowski.herokuapp.com/" + TOKEN)
-    logger.info('Started webhook')
-
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
+    if program_is_running_on_heroku:
+        logger.info("Running locally")
+        updater.start_polling()
+    else:
+        logger.info('Running on Heroku')
+        updater.start_webhook(listen="0.0.0.0",
+                            port=int(PORT),
+                            url_path=TOKEN,
+                            webhook_url="https://ricchardo-bukowski.herokuapp.com/" + TOKEN)
     updater.idle()
 
 if __name__ == '__main__':
