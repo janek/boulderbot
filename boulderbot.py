@@ -28,6 +28,7 @@ def book_command(update, context):
         update.message.reply_text(answer)
 
 def check_command(update, context):
+    logger.info("Starting checking")
     update.message.reply_text("Checking, please hold!")
 
     start_time = time.time()
@@ -41,12 +42,13 @@ def check_command(update, context):
     if bouldergarten_answer:
         end_time = time.time()
         update.message.reply_text(f"🌱 Bouldergarten ({round(end_time - start_time, 2)}s):\n{bouldergarten_answer}")
+    logger.info("Finished checking")
 
 def register_command(update, context):
     logger.info("Registration started")
-    # Get user data, put in DB
-    # r = requests.post("https://sheetdb.io/api/v1/3d1qw3odqb5kl", data={"first_name": "Rick"})
-    # TODO: check response
+# Get user data, put in DB
+# r = requests.post("https://sheetdb.io/api/v1/3d1qw3odqb5kl", data={"first_name": "Rick"})
+# TODO: check response
 
 def start(update, context):
     """Send a message when the command /start is issued."""
@@ -102,6 +104,7 @@ def main():
                         port=int(PORT),
                         url_path=TOKEN,
                         webhook_url="https://ricchardo-bukowski.herokuapp.com/" + TOKEN)
+    logger.info('Started webhook')
     updater.idle()
 
 if __name__ == '__main__':
