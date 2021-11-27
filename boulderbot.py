@@ -31,7 +31,7 @@ def check_command(update, context):
     bouldergarten_answer = bouldergarten.check()
     boulderklub_answer = boulderklub.check()
     if boulderklub_answer and bouldergarten_answer:
-        answer = f"♣️ Boulderklub:\n{boulderklub_answer}\n\n🌱Bouldergarten:\n{bouldergarten_answer}"
+        answer = f"♣️ Boulderklub:\n{boulderklub_answer}\n\n🌱 Bouldergarten:\n{bouldergarten_answer}"
         update.message.reply_text(answer)
 
 def register_command(update, context):
