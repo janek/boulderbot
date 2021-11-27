@@ -12,7 +12,6 @@ def check():
   start_time = time.time()
   driver = get_driver()
   open_bookings()
-  time.sleep(0.5)
   element = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
   dates = process_dates(element.get_attribute('innerHTML'))
   end_time = time.time()

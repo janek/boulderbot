@@ -18,7 +18,6 @@ def check():
   # Selenium has a not, but unclear how to apply it to the class of the containing elements.
   # https://www.qafox.com/selenium-locators-using-not-in-css-selectors/ (too long article)
   # items = driver.find_elements_by_css_selector("div.examplenameA:not(.examplenameB)")
-  time.sleep(0.5)
   element = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
   dates = process_dates(element.get_attribute('innerHTML'))
   end_time = time.time()
@@ -33,28 +32,25 @@ def book(user):
 def open_bookings(driver, for_real=False):
   driver = get_driver()
   driver.get("https://bouldergarten.de/")
+
   # XXX: JS "clicks" vs "mouse" clicks()
   # 1. the issue that forced our usage of JS click might be resolved by waits)
   # 2. JS "clicks" don't seem to work on non-clickable HTML elems, while "mouse" clicks() do
   # https://stackoverflow.com/questions/48665001/can-not-click-on-a-element-elementclickinterceptedexception-in-splinter-selen
   try:
-    time.sleep(0.5)
     driver.find_element(By.ID, "cn-accept-cookie").click() # XXX: may be unnecessary
   except Exception as e:
-    print(e)
-    print("Cookie banner not found")
+    print("Cookie banner not found, error: " + str(e))
 
-  # XXX: Consider using Wselenium.common.exceptions.NoSuchElementExceptionebDriverWait instead of Python time.sleep() - should be faster to execute
-  # WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "eintritt-buchen")))
   element = driver.find_element(By.ID, "cn-accept-cookie")
   driver.execute_script("arguments[0].click();", element)
-
-  # Book entry button
   element = driver.find_element(By.ID, "eintritt-buchen").click()
-  # driver.execute_script("arguments[0].click();", element)
-
-  time.sleep(0.5)
   element = driver.find_element(By.CSS_SELECTOR, ".drp-course-list-item-eintritt-slot").click()
 
   time.sleep(1)
+  # Hand-tuned value for lowest sleep time that doesn't result in a crash.
+  # XXX: Consider using selenium.common.exceptions.NoSuchElementExceptionebDriverWait instead of Python time.sleep()
+  # WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "eintritt-buchen")))
+  # TODO Should try to replace with a function that waits for an element to appear
+
   element = driver.find_element(By.CSS_SELECTOR, ".drp-calendar-day-dates").click()
