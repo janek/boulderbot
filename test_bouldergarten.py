@@ -1,4 +1,4 @@
-from bouldergarten import book, check, process_dates, load_driver, open_bookings
+from bouldergarten import book, check
 
 def test_check():
     result = check()
