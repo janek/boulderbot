@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 def book_command(update, context):
     update.message.reply_text("Booking, please hold!")
     user = update.effective_user
-    answer = book(user)
+    answer = bouldergarten.book(user)
     if answer:
         logger.info("hi")
         update.message.reply_text(answer)

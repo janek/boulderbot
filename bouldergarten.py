@@ -26,7 +26,7 @@ def check():
 
 def book(user):
   if user == "rrszynka":
-    open_bookings(driver)
+    return "Coming soon, " + user
   return "Coming soon!"
 
 def open_bookings(driver, for_real=False):
