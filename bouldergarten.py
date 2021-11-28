@@ -38,15 +38,18 @@ def open_bookings(driver, for_real=False):
   # 2. JS "clicks" don't seem to work on non-clickable HTML elems, while "mouse" clicks() do
   # https://stackoverflow.com/questions/48665001/can-not-click-on-a-element-elementclickinterceptedexception-in-splinter-selen
   try:
+    logger.info("Cookie banner accepted")
     driver.find_element(By.ID, "cn-accept-cookie").click() # XXX: may be unnecessary
   except Exception as e:
-    print("Cookie banner not found, error: " + str(e))
+    logger.info("Cookie banner not found, error: " + str(e))
 
-  element = driver.find_element(By.ID, "cn-accept-cookie")
-  driver.execute_script("arguments[0].click();", element)
+  # element = driver.find_element(By.ID, "cn-accept-cookie")
+  # driver.execute_script("arguments[0].click();", element)
+
   element = driver.find_element(By.ID, "eintritt-buchen").click()
   element = driver.find_element(By.CSS_SELECTOR, ".drp-course-list-item-eintritt-slot").click()
 
+  logger.info("Eintritt-slot clicked")
   time.sleep(1)
   # Hand-tuned value for lowest sleep time that doesn't result in a crash.
   # XXX: Consider using selenium.common.exceptions.NoSuchElementExceptionebDriverWait instead of Python time.sleep()
@@ -54,3 +57,4 @@ def open_bookings(driver, for_real=False):
   # TODO Should try to replace with a function that waits for an element to appear
 
   element = driver.find_element(By.CSS_SELECTOR, ".drp-calendar-day-dates").click()
+  logger.info("Cal-day-dates clicked")
