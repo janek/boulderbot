@@ -48,13 +48,13 @@ def check_command(update, context):
     kegel_answer = webclimber.check("Der Kegel")
     if kegel_answer:
         end_time = time.time()
-        update.message.reply_text(f"⏃ Der Kegel ({round(end_time - start_time, 2)}s:\n{kegel_answer}")
+        update.message.reply_text(f"🔺 Der Kegel ({round(end_time - start_time, 2)}s):\n{kegel_answer}")
 
     start_time = time.time()
     suedbloc_answer = webclimber.check("Suedbloc")
     if suedbloc_answer:
         end_time = time.time()
-        update.message.reply_text(f"◉ Suedbloc ({round(end_time - start_time, 2)}s:\n{suedbloc_answer}")
+        update.message.reply_text(f"🟢 Suedbloc ({round(end_time - start_time, 2)}s):\n{suedbloc_answer}")
 
     logger.info("Finished checking")
 
