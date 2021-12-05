@@ -39,10 +39,16 @@ def check_command(update, context):
         update.message.reply_text(f"♣️ Boulderklub ({round(end_time - start_time, 2)}s):\n{boulderklub_answer}")
 
     start_time = time.time()
-    bouldergarten_answer = bouldergarten.check()
-    if bouldergarten_answer:
-        end_time = time.time()
-        update.message.reply_text(f"🌱 Bouldergarten ({round(end_time - start_time, 2)}s):\n{bouldergarten_answer}")
+    bouldergarten_answer = None
+    try:
+        bouldergarten_answer = bouldergarten.check()
+    except Exception as e:
+        logger.warning(f"Error while checking Bouldergarten: {str(e.msg)}")
+        update.message.reply_text(f"Error: {str(e.msg)}")
+    finally:
+        if bouldergarten_answer:
+            end_time = time.time()
+            update.message.reply_text(f"🌱 Bouldergarten ({round(end_time - start_time, 2)}s):\n{bouldergarten_answer}")
 
     start_time = time.time()
     kegel_answer = webclimber.check("Der Kegel")
@@ -75,6 +81,7 @@ def help_command(update, context):
 def quote(update, context):
     update.message.reply_text(update.message.text)
 
+# Currently disabled, was interfering in standard error processing. Could probably work if reconsidered.
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Error "%s" caused by update "%s"', update, context.error)
