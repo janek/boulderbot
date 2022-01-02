@@ -13,6 +13,7 @@ import time
 LOCAL = True
 PORT = int(os.environ.get('PORT', 5000))
 TOKEN = '2020408861:AAGoHkFiO1P231Ymv6BnMYDfmk006SpzucM' # TODO: load from gitignored file
+DB_API_URL = "https://sheetdb.io/api/v1/3d1qw3odqb5kl"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -95,21 +96,22 @@ def main():
     dp.add_handler(CommandHandler("check", check_command))
 
     # on any error caused by message or command Warning: seems to conflict with normal error reporting
-    # dp.add_error_handler(error)
+    dp.add_error_handler(error)
 
     # on noncommand i.e message - reply the message on Telegram. Warning: conflicts with the reg. flow
     # dp.add_handler(MessageHandler(Filters.text, quote))
 
     # User registration/reconfiguration flow
     conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('start', prompt_for_user_info)],
+        entry_points=[CommandHandler('start', prompt_for_user_info), CommandHandler('register', prompt_for_user_info)],
         states={
             GET_USER_INFO: [MessageHandler(Filters.text, prompt_for_user_info), CommandHandler('skip', skip)],
         },
         fallbacks=[CommandHandler('cancel', cancel)],
     )
-
     dp.add_handler(conv_handler)
+
+    # dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
     updater.start_polling()
     updater.idle()
 
@@ -127,7 +129,7 @@ def main():
     # updater.idle()
 
 @dataclass
-class UserInfo:
+class UserInfoPrompt:
     slug: str
     prompt: str
     validation_regex: str = None
@@ -141,36 +143,44 @@ You need access to the email you give me, and Urban Sports number, if used, has 
 What's your email?
 """
 
-user_information = [
-    UserInfo('email', first_user_info_prompt, None, True), # XXX: this should have labels for some KW args for clarity, but that doesn't work for some reason
-    UserInfo('urban_sports_club_id', "Urban Sports Club ID?: \n(write /skip if you don't have one)"),
-    UserInfo('first_name', "First name?"),
-    UserInfo('second_name', "Second name?"),
+user_information_prompts = [
+    UserInfoPrompt('email', first_user_info_prompt, None, True), # XXX: this should have labels for some KW args for clarity, but that doesn't work for some reason
+    UserInfoPrompt('urban_sports_club_id', "Urban Sports Club ID?: \n(write /skip if you don't have one)"),
+    UserInfoPrompt('first_name', "First name?"),
+    UserInfoPrompt('last_name', "Last name?"),
 ]
 
-user_information_index = 0
+user_prompts_index = 0
 
 def prompt_for_user_info(update: Update, context: CallbackContext) -> int:
     """Ask for user information"""
     # TODO: read out existing info and allow skip if already good
-    global user_information, user_information_index
-    if user_information_index > 0:
+    global user_information_prompts, user_prompts_index
+    telegram_username = str(update.effective_user.id)
+    user_information = {"telegram_username" : telegram_username}
+    if user_prompts_index > 0:
         # TODO: validate via regex before saving, return to this func if not passing
-        user_information[user_information_index - 1].value = update.message.text
-
-
-    if user_information_index == len(user_information):
+        user_information_prompts[user_prompts_index - 1].value = update.message.text
+    if user_prompts_index == len(user_information_prompts):
         update.message.reply_text("Done!")
-        print(user_information)
+        user_prompts_index = 0
+        for info_prompt in user_information_prompts:
+            user_information[info_prompt.slug] = info_prompt.value
         update_user_information(user_information)
         return ConversationHandler.END
     else:
-        update.message.reply_text(user_information[user_information_index].prompt)
-        user_information_index += 1
+        update.message.reply_text(user_information_prompts[user_prompts_index].prompt)
+        user_prompts_index += 1
         return GET_USER_INFO
 
 def update_user_information(user_information):
-    # TODO: send slug and value to the server
+    # TODO: error handling
+    # TODO: register new user vs update existing
+    logger.info(user_information)
+    endpoint = "/telegram_username/" + user_information['telegram_username']
+    print(endpoint)
+    r = requests.put(DB_API_URL + "/telegram_username/224704481", user_information)
+    logger.info("API says: " + r.text)
     return
 
 def skip(update: Update, context: CallbackContext) -> int:
