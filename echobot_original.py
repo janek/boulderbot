@@ -27,6 +27,9 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
+token_janek_testbot = "5007077873:AAEaAejy_A3TOsjDpVOeuWI8EAQHZoQCKE4"
+token_ricchardo_bukowski = '2020408861:AAGoHkFiO1P231Ymv6BnMYDfmk006SpzucM' # TODO: load from gitignored file
+
 
 # Define a few command handlers. These usually take the two arguments update and
 # context.
@@ -52,7 +55,7 @@ def echo(update: Update, context: CallbackContext) -> None:
 def main() -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
-    updater = Updater("5007077873:AAEaAejy_A3TOsjDpVOeuWI8EAQHZoQCKE4")
+    updater = Updater(token_ricchardo_bukowski)
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
