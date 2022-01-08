@@ -10,7 +10,7 @@ import time
 
 LOCAL = True
 PORT = int(os.environ.get('PORT', 5000))
-TOKEN = '2020408861:AAGoHkFiO1P231Ymv6BnMYDfmk006SpzucM'
+TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 USER = "rrszynka"
 
 # Enable logging
