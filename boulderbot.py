@@ -12,7 +12,7 @@ import time
 
 LOCAL = True
 PORT = int(os.environ.get('PORT', 5000))
-TOKEN = '2020408861:AAGoHkFiO1P231Ymv6BnMYDfmk006SpzucM' # TODO: load from gitignored file
+TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 DB_API_URL = "https://sheetdb.io/api/v1/3d1qw3odqb5kl"
 
 # Enable logging
