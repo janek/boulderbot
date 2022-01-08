@@ -1,5 +1,6 @@
 import os
 import logging
+import configparser
 # import requests
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import bouldergarten
@@ -7,10 +8,10 @@ import boulderklub
 import webclimber
 import time
 
-
+config.read('config.ini')
 LOCAL = True
 PORT = int(os.environ.get('PORT', 5000))
-TOKEN = '2020408861:AAGoHkFiO1P231Ymv6BnMYDfmk006SpzucM'
+TOKEN = config['TOKENS']['RicchardoBukowskiBot']
 USER = "rrszynka"
 
 # Enable logging
