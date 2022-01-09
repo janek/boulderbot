@@ -37,8 +37,8 @@ def check_command(update, context):
     try:
         boulderklub_answer = boulderklub.check()
     except Exception as e:
-        logger.warning(f"Error while checking Boulderklub: {str(e.msg)}")
-        update.message.reply_text(f"Error: {str(e.msg)}")
+        logger.warning(f"Error while checking Boulderklub: {str(e)}")
+        update.message.reply_text(f"Error: {str(e)}")
     finally:
         if boulderklub_answer:
             end_time = time.time()
@@ -49,8 +49,8 @@ def check_command(update, context):
     try:
         bouldergarten_answer = bouldergarten.check()
     except Exception as e:
-        logger.warning(f"Error while checking Bouldergarten: {str(e.msg)}")
-        update.message.reply_text(f"Error: {str(e.msg)}")
+        logger.warning(f"Error while checking Bouldergarten: {str(e)}")
+        update.message.reply_text(f"Error: {str(e)}")
     finally:
         if bouldergarten_answer:
             end_time = time.time()
@@ -62,8 +62,8 @@ def check_command(update, context):
             start_time = time.time()
             answer = webclimber.check(gym)
         except Exception as e:
-            logger.warning(f"Error while checking Bouldergarten: {str(e.msg)}")
-            update.message.reply_text(f"Error: {str(e.msg)}")
+            logger.warning(f"Error while checking Bouldergarten: {str(e)}")
+            update.message.reply_text(f"Error: {str(e)}")
         finally:
             if answer:
                 end_time = time.time()
