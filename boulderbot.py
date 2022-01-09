@@ -22,11 +22,10 @@ logger = logging.getLogger(__name__)
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 def book_command(update, context):
-    update.message.reply_text("Booking, please hold!")
     user = update.effective_user
     answer = bouldergarten.book(user)
     if answer:
-        logger.info("hi")
+        logger.info("Received answer from booking")
         update.message.reply_text(answer)
 
 def check_command(update, context):
