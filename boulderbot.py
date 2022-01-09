@@ -33,10 +33,16 @@ def check_command(update, context):
     update.message.reply_text("Checking, please hold!")
 
     start_time = time.time()
-    boulderklub_answer = boulderklub.check()
-    if boulderklub_answer:
-        end_time = time.time()
-        update.message.reply_text(f"♣️ Boulderklub ({round(end_time - start_time, 2)}s):\n{boulderklub_answer}")
+    boulderklub_answer = None
+    try:
+        boulderklub_answer = boulderklub.check()
+    except Exception as e:
+        logger.warning(f"Error while checking Boulderklub: {str(e.msg)}")
+        update.message.reply_text(f"Error: {str(e.msg)}")
+    finally:
+        if boulderklub_answer:
+            end_time = time.time()
+            update.message.reply_text(f"♣️ Boulderklub ({round(end_time - start_time, 2)}s):\n{boulderklub_answer}")
 
     start_time = time.time()
     bouldergarten_answer = None
@@ -96,7 +102,7 @@ def main():
     dp.add_handler(CommandHandler("check", check_command))
 
     # on any error caused by message or command Warning: seems to conflict with normal error reporting
-    dp.add_error_handler(error)
+    # dp.add_error_handler(error)
 
     # on noncommand i.e message - reply the message on Telegram. Warning: conflicts with the reg. flow
     # dp.add_handler(MessageHandler(Filters.text, quote))
