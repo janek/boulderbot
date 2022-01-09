@@ -9,7 +9,6 @@ import boulderklub
 import webclimber
 import time
 
-
 LOCAL = True
 PORT = int(os.environ.get('PORT', 5000))
 TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
@@ -85,6 +84,8 @@ def program_is_running_on_heroku() -> bool:
 
 GET_USER_INFO = 0 # More descriptive state name for ConversationHandler
 def main():
+    if not TOKEN:
+        raise Exception("Could not retrieve $TELEGRAM_BOT_TOKEN")
     updater = Updater(TOKEN)
     logger.info('Starting bot')
     logger.info("Running on heroku" if program_is_running_on_heroku() else "Running locally")
