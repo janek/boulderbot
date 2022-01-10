@@ -36,8 +36,9 @@ def check_command(update, context):
     boulderklub_answer = None
     try:
         boulderklub_answer = boulderklub.check()
+    # TODO: do not catch all exceptions
     except Exception as e:
-        logger.warning(f"Error while checking Boulderklub: {str(e)}")
+        logger.warning(f"Error while checking Boulderklub: {repr(e)}")
         update.message.reply_text(f"Error: {str(e)}")
     finally:
         if boulderklub_answer:
@@ -49,7 +50,7 @@ def check_command(update, context):
     try:
         bouldergarten_answer = bouldergarten.check()
     except Exception as e:
-        logger.warning(f"Error while checking Bouldergarten: {str(e)}")
+        logger.warning(f"Error while checking Bouldergarten: {repr(e)}")
         update.message.reply_text(f"Error: {str(e)}")
     finally:
         if bouldergarten_answer:
@@ -62,7 +63,7 @@ def check_command(update, context):
             start_time = time.time()
             answer = webclimber.check(gym)
         except Exception as e:
-            logger.warning(f"Error while checking Bouldergarten: {str(e)}")
+            logger.warning(f"Error while checking Bouldergarten: {repr(e)}")
             update.message.reply_text(f"Error: {str(e)}")
         finally:
             if answer:
