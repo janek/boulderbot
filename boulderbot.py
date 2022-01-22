@@ -1,4 +1,5 @@
 import os
+import schedule
 import logging
 import requests
 from dataclasses import dataclass
@@ -88,13 +89,27 @@ def error(update, context):
 def program_is_running_on_heroku() -> bool:
     return ('IS_HEROKU' in os.environ)
 
-GET_USER_INFO = 0 # More descriptive state name for ConversationHandler
+GET_USER_INFO = 0 # Denotes at which step in getting user registration info we are
+
+def cache_information_about_slots():
+    ans = boulderklub.check()
+    with open("index.html", "w") as file:
+        file.write(ans)
+
 def main():
     if not TOKEN:
-        raise Exception("Could not retrieve $TELEGRAM_BOT_TOKEN")
+        raise Exception(f"Could not retrieve {TELEGRAM_BOT_TOKEN}")
     updater = Updater(TOKEN)
     logger.info('Starting bot')
     logger.info("Running on heroku" if program_is_running_on_heroku() else "Running locally")
+
+    boulderklub.check()
+
+    schedule.every(1).minutes.do(cache_information_about_slots)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
     # Register command handlers
     dp = updater.dispatcher
@@ -121,6 +136,7 @@ def main():
     # dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
     updater.start_polling()
     updater.idle()
+
 
     # # # Start the Bot
     # # if not program_is_running_on_heroku: # TODO: this condition is broken, debug maybe by printing os.environ
