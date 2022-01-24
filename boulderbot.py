@@ -29,50 +29,51 @@ def book_command(update, context):
         logger.info("Received answer from booking")
         update.message.reply_text(answer)
 
+gyms = {
+    "Der Kegel" : {
+        "emoji": "🔺",
+        "method": "webclimber",
+        "check_function": webclimber.check
+    },
+    "Suedbloc" : {
+        "emoji": "⚪️",
+        "method": "webclimber",
+        "check_function": webclimber.check
+    },
+    "Bouldergarten" : {
+        "emoji": "🍃",
+        "method": "dr_plano",
+        "check_function": bouldergarten.check
+    },
+    "Boulderklub" : {
+        "emoji": "♣",
+        "method": "dr_plano",
+        "check_function": boulderklub.check
+    },
+}
+
+def check_gym(gym):
+    slot_information = None
+    gym_emoji = gyms[gym]["emoji"]
+    try:
+        start_time = time.time()
+        slot_information = gyms[gym]["check_function"](gym)
+    except Exception as e:
+        logger.warning(f"Error while checking {gym}")
+        return(f"Error ({gym} {gym_emoji}🥲): {str(e)}")
+    finally:
+        if slot_information:
+            end_time = time.time()
+            check_timer = round(end_time - start_time, 2)
+            return(f"{gym_emoji} {gym} ({check_timer}s):\n{slot_information}")
+
 def check_command(update, context):
     logger.info("Starting checking")
     update.message.reply_text("Checking, please hold!")
-
-    start_time = time.time()
-    boulderklub_answer = None
-    try:
-        boulderklub_answer = boulderklub.check()
-    # TODO: do not catch all exceptions
-    except Exception as e:
-        logger.warning(f"Error while checking Boulderklub")
-        update.message.reply_text(f"Error: {str(e)}")
-    finally:
-        if boulderklub_answer:
-            end_time = time.time()
-            update.message.reply_text(f"♣️ Boulderklub ({round(end_time - start_time, 2)}s):\n{boulderklub_answer}")
-
-    start_time = time.time()
-    bouldergarten_answer = None
-    try:
-        bouldergarten_answer = bouldergarten.check()
-    except Exception as e:
-        logger.warning(f"Error while checking Bouldergarten")
-        update.message.reply_text(f"Error: {str(e)}")
-    finally:
-        if bouldergarten_answer:
-            end_time = time.time()
-            update.message.reply_text(f"🌱 Bouldergarten ({round(end_time - start_time, 2)}s):\n{bouldergarten_answer}")
-
-    for gym in ["Der Kegel", "Suedbloc"]:
-        answer = None
-        try:
-            start_time = time.time()
-            answer = webclimber.check(gym)
-        except Exception as e:
-            logger.warning(f"Error while checking {gym}")
-            update.message.reply_text(f"Error: {str(e)}")
-        finally:
-            if answer:
-                end_time = time.time()
-                update.message.reply_text(f"{gym} ({round(end_time - start_time, 2)}s):\n{answer}")
-
+    for gym in gyms:
+        answer = check_gym(gym)
+        update.message.reply_text(answer)
     logger.info("Finished checking")
-
 
 def help_command(update, context):
     """Send a message when the command /help is issued."""

@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 # TODO: Move to selenium_helpers, maybe also rename that file
-def check():
+def check(gym="Bouldergarten"):
   start_time = time.time()
   driver = get_driver()
   open_bookings(driver)
