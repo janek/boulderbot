@@ -103,13 +103,11 @@ def main():
     logger.info('Starting bot')
     logger.info("Running on heroku" if program_is_running_on_heroku() else "Running locally")
 
-    boulderklub.check()
+    # schedule.every(1).minutes.do(cache_information_about_slots)
 
-    schedule.every(1).minutes.do(cache_information_about_slots)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    # while True:
+    #     schedule.run_pending()
+    #     time.sleep(1)
 
     # Register command handlers
     dp = updater.dispatcher
