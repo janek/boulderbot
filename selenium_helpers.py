@@ -40,6 +40,7 @@ def load_driver():
 
 # TODO: unify functions once more of them are in place
 def process_dates(dates):
+  # save_dates_to_fixture(dates, source="dr_plano")
   dates = re.sub('<[^>]*>', '', dates)
   lines = [line.strip() for line in dates.splitlines() if len(re.sub('\s*', '', line)) > 0 and not "Buchen" in line and not "begonnen" in line]
   date_strings = lines[2::3]
@@ -50,6 +51,7 @@ def process_dates(dates):
   return "\n".join(data)
 
 def process_dates_webclimber(dates):
+  # save_dates_to_fixture(dates, source="webclimber")
   dates = re.sub('<[^>]*>', '', dates)
   dates = re.sub('Buchen', '\n', dates)
   dates = re.sub('Uhr', '→ ', dates)
@@ -61,6 +63,11 @@ def process_dates_webclimber(dates):
     return "All timeslots have free places!"
   return "\n".join(lines)
 
+def save_dates_to_fixture(dates, source):
+  logger.info("saving?")
+  filepath = "fixtures/dates_" + source + ".txt"
+  with open(filepath, "w+") as file:
+    file.write(dates)
 
 def program_is_running_on_heroku() -> bool:
     return ('IS_HEROKU' in os.environ)
