@@ -12,6 +12,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+last_cached_timestamp = 0
+MAX_CACHE_AGE_MINUTES = 10*60
 # XXX: Consider support for non-USC (vide kegel link). Note: some gyms are free to book, some paid
 
 class GymName(Enum):
@@ -46,7 +48,19 @@ def gym_is_webclimber(gym: GymName):
 # XXX: where's the line between open bookings and check? Where's the line between selenium helpers and gyms?
 # A: "helpers" should be independent of which gym it is. open bookings should be part of check and then go to process_dates
 
-def check(gym: GymName):
+# XXX: Gym information should probably be stored in a single JSON file and not multiple
+def get_gym_information(gym: GymName):
+  if time.time() - last_cached_timestamp > MAX_CACHE_AGE_MINUTES:
+    slots = refresh_gym_information(gym)
+  else:
+    with open(cache_location(gym), "r") as file:
+      slots = json.loads(file)
+  return format_slot_information_for_telegram(slots)
+
+def cache_location(gym):
+  return "cache/" + gym.value + ".json"
+
+def refresh_gym_information(gym: GymName):
   start_time = time.time()
   driver = get_driver()
   driver.get(gyms[gym]["link"])
@@ -56,7 +70,6 @@ def check(gym: GymName):
     element = driver.find_element(By.ID, "offerTimes")
     # TODO: extract the lines below (can outer be inner or sth? print after the base run works
     dates = element.get_attribute('outerHTML')
-    dates = process_dates_webclimber(dates)
   else:
     if gym == GymName.BOULDERGARTEN:
       bouldergarten_extra_steps_for_checking(driver)
@@ -67,10 +80,13 @@ def check(gym: GymName):
     # https://www.qafox.com/selenium-locators-using-not-in-css-selectors/ (too long article)
     # items = driver.find_elements_by_css_selector("div.examplenameA:not(.examplenameB)")
     element = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
-    dates = process_dates(element.get_attribute('innerHTML'))
+    dates = element.get_attribute('innerHTML')
 
+  dates = process_dates_html(dates, gym)
   end_time = time.time()
-  logger.info(f"Checked {gym} in {round(end_time - start_time, 2)}s")
+  last_cached_timestamp = end_time
+
+  logger.info(f"Checked {gym.value} in {round(end_time - start_time, 2)}s")
   return dates
 
 
@@ -95,33 +111,6 @@ def bouldergarten_extra_steps_for_checking(driver):
     # WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "eintritt-buchen")))
     # TODO Should try to replace with a function that waits for an element to appear
     return element
-
-
-def process_dates_html(dates): # Dr plano
-  # save_dates_to_fixture(dates, source="dr_plano")
-  dates = re.sub('<[^>]*>', '', dates)
-  # lines = [line.strip() for line in dates.splitlines() if len(re.sub('\s*', '', line)) > 0 and not "Buchen" in line and not "begonnen" in line]
-  lines = dates
-  date_strings = lines[2::3]
-  status_strings = lines[::3]
-
-  start_end_times = [tuple(line.split(" - ")) for line in date_strings]
-  free_slots = [re.sub("[^0-9]", "", line) for line in status_strings]
-
-  slots =  [
-      { i :
-        {
-          "start_time": start,
-          "end_time": end,
-          "free_slots": (0 if number == "" else number)
-        }
-      } for i, ((start, end), number) in enumerate(zip(start_end_times, free_slots))
-  ]
-
-  slots_json = json.dumps(slots)
-  with open("experiment_output_json_cache.py", "w+") as file:
-      file.write(slots_json)
-  return slots_json
 
 
 def process_dates_html(dates: str, gym: GymName):
@@ -160,22 +149,23 @@ def process_dates_html(dates: str, gym: GymName):
   os.makedirs(os.path.dirname(filename), exist_ok=True)
   with open(filename, "w") as file:
       file.write(slots_json)
-  return slots_json
+  return slots
 
 
-def format_slot_information_for_telegram(slots_json):
-  slots = json.loads(slots_json)
+def format_slot_information_for_telegram(slots):
   n_places_str = lambda i: "10+" if i >= 10 else str(i)
   return [
     slot["start_time"] + " - " + slot["end_time"] + " → " + n_places_str(int(slot["free_places"]))
     for slot in slots if int(slot["free_places"]) > 0
   ]
 
+
 def save_dates_html_to_fixture(dates, source):
   logger.info("saving?")
   filepath = "fixtures/dates_" + source + ".txt"
   with open(filepath, "w+") as file:
     file.write(dates)
+
 
 def book(user):
   return "Coming soon!"

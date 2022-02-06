@@ -9,7 +9,7 @@ import bouldergarten
 import boulderklub
 import webclimber
 import time
-from gyms import GymNames, gyms
+from gyms import GymNames, gyms, get_gym_information
 
 LOCAL = True
 PORT = int(os.environ.get('PORT', 5000))
@@ -30,26 +30,12 @@ def book_command(update, context):
         logger.info("Received answer from booking")
         update.message.reply_text(answer)
 
-def check_gym(gym):
-    slot_information = None
-    gym_emoji = gyms[gym]["emoji"]
-    try:
-        start_time = time.time()
-        slot_information = gyms[gym]["check_function"](gym)
-    except Exception as e:
-        logger.warning(f"Error while checking {gym}")
-        return(f"Error ({gym} {gym_emoji}🥲): {str(e)}")
-    finally:
-        if slot_information:
-            end_time = time.time()
-            check_timer = round(end_time - start_time, 2)
-            return(f"{gym_emoji} {gym} ({check_timer}s):\n{slot_information}")
 
 def check_command(update, context):
     logger.info("Starting checking")
     update.message.reply_text("Checking, please hold!")
     for gym in gyms:
-        answer = check_gym(gym)
+        answer = get_gym_information(gym)
         update.message.reply_text(answer)
     logger.info("Finished checking")
 

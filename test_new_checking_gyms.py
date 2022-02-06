@@ -1,5 +1,3 @@
-from gyms import check, gyms, GymName
+from gyms import get_gym_information, gyms, GymName
 
-def test_gyms():
-  for gym in GymName:
-      check(gym)
+get_gym_information(GymName.BOULDERKLUB)
