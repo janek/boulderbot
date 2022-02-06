@@ -1,5 +1,4 @@
 import re
-from pprint import pprint
 import time
 import json
 import logging
@@ -105,8 +104,6 @@ def process_dates_html(dates): # Dr plano
   date_strings = lines[2::3]
   status_strings = lines[::3]
 
-  pprint(date_strings)
-  pprint(status_strings)
   start_end_times = [tuple(line.split(" - ")) for line in date_strings]
   free_slots = [re.sub("[^0-9]", "", line) for line in status_strings]
 
@@ -125,10 +122,9 @@ def process_dates_html(dates): # Dr plano
       file.write(slots_json)
   return slots_json
 
-from pprint import pprint
 
 def process_dates_html(dates: str, gym: GymName):
-  # save_dates_to_fixture(dates, source=gym)
+  # save_dates_html_to_fixture(dates, source=gym)
   if gym_is_webclimber(gym):
     dates = re.sub('<[^>]*>', '', dates)
     dates = re.sub('Buchen', '\n', dates)
@@ -143,7 +139,6 @@ def process_dates_html(dates: str, gym: GymName):
       if len(re.sub('\s*', '', line)) > 0 # Clean up whitespace lines
       and not "Buchen" in line and not "begonnen" in line # Filter out extra lines for a consistent output
     ]
-    pprint(lines)
     date_strings = lines[2::3]
     status_strings = lines[::3]
     lines = [date + " - " + status for (date, status) in zip(date_strings, status_strings)]
@@ -152,12 +147,11 @@ def process_dates_html(dates: str, gym: GymName):
   info = [(start, end, re.sub("[^0-9]", "", num_slots)) for (start, end, num_slots) in info]
 
   slots =  [
-      { i :
-        {
-          "start_time": start,
-          "end_time": end,
-          "free_slots": (0 if num_slots == "" else num_slots)
-        }
+      {
+        "index": i,
+        "start_time": start,
+        "end_time": end,
+        "free_slots": (0 if num_slots == "" else num_slots)
       } for i, (start, end, num_slots) in enumerate(info)
   ]
 
