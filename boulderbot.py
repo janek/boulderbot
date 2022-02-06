@@ -9,6 +9,7 @@ import bouldergarten
 import boulderklub
 import webclimber
 import time
+from gyms import GymNames, gyms
 
 LOCAL = True
 PORT = int(os.environ.get('PORT', 5000))
@@ -28,29 +29,6 @@ def book_command(update, context):
     if answer:
         logger.info("Received answer from booking")
         update.message.reply_text(answer)
-
-gyms = {
-    "Der Kegel" : {
-        "emoji": "🔺",
-        "method": "webclimber",
-        "check_function": webclimber.check
-    },
-    "Suedbloc" : {
-        "emoji": "⚪️",
-        "method": "webclimber",
-        "check_function": webclimber.check
-    },
-    "Bouldergarten" : {
-        "emoji": "🍃",
-        "method": "dr_plano",
-        "check_function": bouldergarten.check
-    },
-    "Boulderklub" : {
-        "emoji": "♣",
-        "method": "dr_plano",
-        "check_function": boulderklub.check
-    },
-}
 
 def check_gym(gym):
     slot_information = None
