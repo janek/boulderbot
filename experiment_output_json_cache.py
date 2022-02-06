@@ -1,4 +1,4 @@
-from gyms import process_dates, process_dates_webclimber, process_dates_html, GymName
+from gyms import process_dates_html, GymName, format_slot_information_for_telegram
 from pprint import pprint
 import re
 import json
@@ -12,5 +12,10 @@ with open("fixtures/dates_webclimber.html") as file:
 a = process_dates_html(dates_html, GymName.BOULDERGARTEN)
 b = process_dates_html(dates_html_webclimber, GymName.DER_KEGEL)
 
-pprint(a)
-pprint(b)
+# pprint(a)
+# pprint(b)
+
+with open("check_cache_test.json", "r") as file:
+    slots = file.read()
+
+print(format_slot_information_for_telegram(slots))

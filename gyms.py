@@ -1,3 +1,4 @@
+import os
 import re
 import time
 import json
@@ -148,45 +149,29 @@ def process_dates_html(dates: str, gym: GymName):
 
   slots =  [
       {
-        "index": i,
         "start_time": start,
         "end_time": end,
-        "free_slots": (0 if num_slots == "" else num_slots)
-      } for i, (start, end, num_slots) in enumerate(info)
+        "free_places": (0 if num_slots == "" else num_slots)
+      } for (start, end, num_slots) in info
   ]
 
   slots_json = json.dumps(slots)
-  with open("checks_cache_test.json", "w+") as file:
+  filename = "cache/" + gym.value + ".json"
+  os.makedirs(os.path.dirname(filename), exist_ok=True)
+  with open(filename, "w") as file:
       file.write(slots_json)
   return slots_json
 
-def process_dates(dates):
-  # save_dates_to_fixture(dates, source="dr_plano")
-  dates = re.sub('<[^>]*>', '', dates)
-  lines = [line.strip() for line in dates.splitlines() if len(re.sub('\s*', '', line)) > 0 and not "Buchen" in line and not "begonnen" in line]
-  date_strings = lines[2::3]
-  status_strings = lines[::3]
 
-  status_strings = [status.replace("freie Plätze", "places").replace("freier Platz", "place") for status in status_strings]
-  data = [a + " → " + b for a, b in list(zip(date_strings, status_strings)) if not "ausgebucht" in b and not "abgelaufen" in b]
-  # TODO: Check for "all slots have places"
-  return "\n".join(data)
-  return "\n".join(data)
+def format_slot_information_for_telegram(slots_json):
+  slots = json.loads(slots_json)
+  n_places_str = lambda i: "10+" if i >= 10 else str(i)
+  return [
+    slot["start_time"] + " - " + slot["end_time"] + " → " + n_places_str(int(slot["free_places"]))
+    for slot in slots if int(slot["free_places"]) > 0
+  ]
 
-def process_dates_webclimber(dates):
-  # save_dates_to_fixture(dates, source="webclimber")
-  dates = re.sub('<[^>]*>', '', dates)
-  dates = re.sub('Buchen', '\n', dates)
-  dates = re.sub('Uhr', '→ ', dates)
-  dates = re.sub('mehr als 10 Plätze verfügbar', '10+ places', dates)
-  dates = dates.replace("freie Plätze", "places").replace("freier Platz", "place")
-  dates = re.sub(r'^\s*S', 'a', dates)
-  lines = [line.strip() for line in dates.splitlines() if line.strip() != '']
-  if len(lines) == 49:
-    return "All timeslots have free places!"
-  return "\n".join(lines)
-
-def save_dates_to_fixture(dates, source):
+def save_dates_html_to_fixture(dates, source):
   logger.info("saving?")
   filepath = "fixtures/dates_" + source + ".txt"
   with open(filepath, "w+") as file:
