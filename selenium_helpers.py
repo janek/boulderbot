@@ -23,7 +23,6 @@ def get_driver():
 
 def load_driver():
   # TODO: logger.info logs are not showing up in pytest
-  print(f"Running on Heroku: {program_is_running_on_heroku()}")
   logger.info(f"Running on Heroku: {program_is_running_on_heroku()}")
   start_time = time.time()
   chrome_options = webdriver.ChromeOptions()
@@ -37,12 +36,6 @@ def load_driver():
   end_time = time.time()
   logger.info(f"Loaded driver in {round(end_time - start_time, 2)}s")
   return driver
-
-def save_dates_to_fixture(dates, source):
-  logger.info("saving?")
-  filepath = "fixtures/dates_" + source + ".txt"
-  with open(filepath, "w+") as file:
-    file.write(dates)
 
 def program_is_running_on_heroku() -> bool:
     return ('IS_HEROKU' in os.environ)

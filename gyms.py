@@ -13,7 +13,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 last_cached_timestamp = 0
-MAX_CACHE_AGE_MINUTES = 10*60
+MAX_CACHE_AGE_MINUTES = 1
 # XXX: Consider support for non-USC (vide kegel link). Note: some gyms are free to book, some paid
 
 class GymName(Enum):
@@ -49,12 +49,17 @@ def gym_is_webclimber(gym: GymName):
 # A: "helpers" should be independent of which gym it is. open bookings should be part of check and then go to process_dates
 
 # XXX: Gym information should probably be stored in a single JSON file and not multiple
-def get_gym_information(gym: GymName):
-  if time.time() - last_cached_timestamp > MAX_CACHE_AGE_MINUTES:
+def get_gym_information(gym: GymName, force_last_cached_timestamp=None):
+  cached_timestamp = force_last_cached_timestamp if force_last_cached_timestamp != None else last_cached_timestamp
+  cache_age_minutes = round((time.time() - cached_timestamp)/60)
+  logger.info("Cache age: " + str(cache_age_minutes) + " min")
+  if cache_age_minutes > MAX_CACHE_AGE_MINUTES:
+    logger.info("Refreshing gym information")
     slots = refresh_gym_information(gym)
   else:
+    logger.info("Loading gym information from cache")
     with open(cache_location(gym), "r") as file:
-      slots = json.loads(file)
+      slots = json.loads(file.read())
   return format_slot_information_for_telegram(slots)
 
 def cache_location(gym):
@@ -145,7 +150,7 @@ def process_dates_html(dates: str, gym: GymName):
   ]
 
   slots_json = json.dumps(slots)
-  filename = "cache/" + gym.value + ".json"
+  filename = cache_location(gym)
   os.makedirs(os.path.dirname(filename), exist_ok=True)
   with open(filename, "w") as file:
       file.write(slots_json)
