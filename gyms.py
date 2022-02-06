@@ -1,4 +1,5 @@
 import re
+from pprint import pprint
 import time
 import json
 import logging
@@ -121,6 +122,42 @@ def process_dates_html(dates): # Dr plano
       file.write(slots_json)
   return slots_json
 
+from pprint import pprint
+
+def process_dates_html(dates: str, gym: GymName):
+  # save_dates_to_fixture(dates, source=gym)
+  if gym_is_webclimber(gym):
+    dates = re.sub('<[^>]*>', '', dates)
+    dates = re.sub('Buchen', '\n', dates)
+    dates = re.sub('Uhr', '- ', dates)
+    lines = [line.strip() for line in dates.splitlines() if line.strip() != '']
+    # dates = re.sub('mehr als 10 Plätze verfügbar', '10+ places', dates) # TODO: note down somewhere that 10 is 10+
+    # dates = re.sub(r'^\s*S', 'a', dates) # TODO: figure out what this means
+  else:
+    dates = re.sub('<[^>]*>', '', dates)
+    lines = [line.strip() for line in dates.splitlines() if len(re.sub('\s*', '', line)) > 0 and not "Buchen" in line and not "begonnen" in line]
+    date_strings = lines[2::3]
+    status_strings = lines[::3]
+    lines = [date + " - " + status for (date, status) in zip(date_strings, status_strings)]
+
+  info = [tuple(line.split(" - ")) for line in lines]
+  info = [(start, end, re.sub("[^0-9]", "", num_slots)) for (start, end, num_slots) in info]
+
+  slots =  [
+      { i :
+        {
+          "start_time": start,
+          "end_time": end,
+          "free_slots": (0 if num_slots == "" else num_slots)
+        }
+      } for i, (start, end, num_slots) in enumerate(info)
+  ]
+
+  slots_json = json.dumps(slots)
+  with open("checks_cache_test.json", "w+") as file:
+      file.write(slots_json)
+  return slots_json
+
 def process_dates(dates):
   # save_dates_to_fixture(dates, source="dr_plano")
   dates = re.sub('<[^>]*>', '', dates)
@@ -131,6 +168,7 @@ def process_dates(dates):
   status_strings = [status.replace("freie Plätze", "places").replace("freier Platz", "place") for status in status_strings]
   data = [a + " → " + b for a, b in list(zip(date_strings, status_strings)) if not "ausgebucht" in b and not "abgelaufen" in b]
   # TODO: Check for "all slots have places"
+  return "\n".join(data)
   return "\n".join(data)
 
 def process_dates_webclimber(dates):
