@@ -100,10 +100,13 @@ def bouldergarten_extra_steps_for_checking(driver):
 def process_dates_html(dates): # Dr plano
   # save_dates_to_fixture(dates, source="dr_plano")
   dates = re.sub('<[^>]*>', '', dates)
-  lines = [line.strip() for line in dates.splitlines() if len(re.sub('\s*', '', line)) > 0 and not "Buchen" in line and not "begonnen" in line]
+  # lines = [line.strip() for line in dates.splitlines() if len(re.sub('\s*', '', line)) > 0 and not "Buchen" in line and not "begonnen" in line]
+  lines = dates
   date_strings = lines[2::3]
   status_strings = lines[::3]
 
+  pprint(date_strings)
+  pprint(status_strings)
   start_end_times = [tuple(line.split(" - ")) for line in date_strings]
   free_slots = [re.sub("[^0-9]", "", line) for line in status_strings]
 
@@ -135,7 +138,12 @@ def process_dates_html(dates: str, gym: GymName):
     # dates = re.sub(r'^\s*S', 'a', dates) # TODO: figure out what this means
   else:
     dates = re.sub('<[^>]*>', '', dates)
-    lines = [line.strip() for line in dates.splitlines() if len(re.sub('\s*', '', line)) > 0 and not "Buchen" in line and not "begonnen" in line]
+    lines = [
+      line.strip() for line in dates.splitlines()
+      if len(re.sub('\s*', '', line)) > 0 # Clean up whitespace lines
+      and not "Buchen" in line and not "begonnen" in line # Filter out extra lines for a consistent output
+    ]
+    pprint(lines)
     date_strings = lines[2::3]
     status_strings = lines[::3]
     lines = [date + " - " + status for (date, status) in zip(date_strings, status_strings)]
