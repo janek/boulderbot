@@ -3,7 +3,7 @@ import time
 import json
 import logging
 from selenium.webdriver.common.by import By
-from selenium_helpers import get_driver, process_dates_webclimber, process_dates
+from selenium_helpers import get_driver
 from enum import Enum
 
 # Enable logging
@@ -38,6 +38,7 @@ gyms = {
     },
 }
 
+
 def gym_is_webclimber(gym: GymName):
   return "webclimber" in gyms[gym]['link']
 
@@ -48,6 +49,7 @@ def check(gym: GymName):
   start_time = time.time()
   driver = get_driver()
   driver.get(gyms[gym]["link"])
+
   if gym_is_webclimber(gym):
     time.sleep(2) # TODO: test without
     element = driver.find_element(By.ID, "offerTimes")
@@ -65,9 +67,11 @@ def check(gym: GymName):
     # items = driver.find_elements_by_css_selector("div.examplenameA:not(.examplenameB)")
     element = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
     dates = process_dates(element.get_attribute('innerHTML'))
+
   end_time = time.time()
   logger.info(f"Checked {gym} in {round(end_time - start_time, 2)}s")
   return dates
+
 
 def bouldergarten_extra_steps_for_checking(driver):
     # XXX: JS "clicks" vs "mouse" clicks()
@@ -90,6 +94,7 @@ def bouldergarten_extra_steps_for_checking(driver):
     # WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, "eintritt-buchen")))
     # TODO Should try to replace with a function that waits for an element to appear
     return element
+
 
 def process_dates_html(dates): # Dr plano
   # save_dates_to_fixture(dates, source="dr_plano")
