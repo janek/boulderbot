@@ -104,11 +104,14 @@ def bouldergarten_extra_steps_for_checking(driver):
     # 2. JS "clicks" don't seem to work on non-clickable HTML elems, while "mouse" clicks() do
     # https://stackoverflow.com/questions/48665001/can-not-click-on-a-element-elementclickinterceptedexception-in-splinter-selen
     try:
+      # XXX: The cookies banner was causing problems, but perhaps not on this webdriver.
+      # Try without, otherwise note also that body has a class revealing cookie banner info
+      driver.find_element(By.ID, "cn-accept-cookie").click()
       logger.info("Cookie banner accepted")
-      driver.find_element(By.ID, "cn-accept-cookie").click() # XXX: may be unnecessary
+      # Older version below:
       # element = driver.find_element(By.ID, "cn-accept-cookie")
       # driver.execute_script("arguments[0].click();", element)
-    except Exception as e:
+    except Exception as e: # XXX: Do not catch every exception
       logger.info("Cookie banner not found, error: " + str(e))
     element = driver.find_element(By.ID, "eintritt-buchen").click()
     element = driver.find_element(By.CSS_SELECTOR, ".drp-course-list-item-eintritt-slot").click()
