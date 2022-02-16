@@ -157,7 +157,7 @@ def process_dates_html(dates: str, gym: GymName):
         } for (start, end, num_slots) in info
     ]
 
-  slots_json = json.dumps(slots)
+  slots_json = json.dumps(slots, indent=4)
   filename = cache_location(gym)
   os.makedirs(os.path.dirname(filename), exist_ok=True)
   with open(filename, "w") as file:
