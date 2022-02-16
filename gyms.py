@@ -13,7 +13,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 last_cached_timestamp = 0
-MAX_CACHE_AGE_MINUTES = 1
+MAX_CACHE_AGE_MINUTES = 5
 
 # XXX: Consider support for non-USC (vide kegel link). Note: some gyms are free to book, some paid
 
@@ -156,7 +156,7 @@ def process_dates_html(dates: str, gym: GymName):
         {
           "start_time": start,
           "end_time": end,
-          "free_places": (0 if num_slots == "" else num_slots)
+          "free_places": (0 if num_slots == "" else int(num_slots))
         } for (start, end, num_slots) in info
     ]
 

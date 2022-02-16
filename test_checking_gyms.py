@@ -1,17 +1,22 @@
-from boulderbot import check_gym
+import time
+from gyms import get_gym_information, gyms, GymName
+
+# m = 2
+# t = time.time() - m * 60
+# TODO: test caching by optionally forcing refresh (by providing time or just force refresh)
 
 def test_bouldergarten():
-    check_gym("Bouldergarten")
+    get_gym_information(GymName.BOULDERGARTEN)
     return True
 
 def test_boulderklub():
-    check_gym("Boulderklub")
+    get_gym_information(GymName.BOULDERKLUB)
     return True
 
 def test_suedbloc():
-    check_gym("Suedbloc")
+    get_gym_information(GymName.SUEDBLOC)
     return True
 
 def test_der_kegel():
-    check_gym("Der Kegel")
+    get_gym_information(GymName.DER_KEGEL)
     return True
