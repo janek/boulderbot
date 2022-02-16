@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 last_cached_timestamp = 0
 MAX_CACHE_AGE_MINUTES = 1
+
 # XXX: Consider support for non-USC (vide kegel link). Note: some gyms are free to book, some paid
 
 class GymName(Enum):
@@ -48,8 +49,10 @@ def gym_is_webclimber(gym: GymName):
 # XXX: where's the line between open bookings and check? Where's the line between selenium helpers and gyms?
 # A: "helpers" should be independent of which gym it is. open bookings should be part of check and then go to process_dates
 
-# XXX: Gym information should probably be stored in a single JSON file and not multiple
+# XXX: Gym information should probably be stored in a single JSON file and not multiple,
+# also consider a database.
 def get_gym_information(gym: GymName, force_last_cached_timestamp=None):
+  """ Checks cache for gym info. If cache is too old, refreshes the info"""
   cached_timestamp = force_last_cached_timestamp if force_last_cached_timestamp != None else last_cached_timestamp
   cache_age_minutes = round((time.time() - cached_timestamp)/60)
   logger.info("Cache age: " + str(cache_age_minutes) + " min")
@@ -131,23 +134,28 @@ def process_dates_html(dates: str, gym: GymName):
     dates = re.sub('<[^>]*>', '', dates)
     lines = [
       line.strip() for line in dates.splitlines()
-      if len(re.sub('\s*', '', line)) > 0 # Clean up whitespace lines
+      if len(re.sub(r'\s*', '', line)) > 0 # Clean up whitespace lines
       and not "Buchen" in line and not "begonnen" in line # Filter out extra lines for a consistent output
     ]
     date_strings = lines[2::3]
     status_strings = lines[::3]
     lines = [date + " - " + status for (date, status) in zip(date_strings, status_strings)]
 
-  info = [tuple(line.split(" - ")) for line in lines]
-  info = [(start, end, re.sub("[^0-9]", "", num_slots)) for (start, end, num_slots) in info]
+  if "keine plätze" in lines[0].lower():
+    logger.info("caught no slots")
+    slots = []
+  else:
+    logger.info(lines)
+    info = [tuple(line.split(" - ")) for line in lines]
+    info = [(start, end, re.sub("[^0-9]", "", num_slots)) for (start, end, num_slots) in info]
 
-  slots =  [
-      {
-        "start_time": start,
-        "end_time": end,
-        "free_places": (0 if num_slots == "" else num_slots)
-      } for (start, end, num_slots) in info
-  ]
+    slots =  [
+        {
+          "start_time": start,
+          "end_time": end,
+          "free_places": (0 if num_slots == "" else num_slots)
+        } for (start, end, num_slots) in info
+    ]
 
   slots_json = json.dumps(slots)
   filename = cache_location(gym)
