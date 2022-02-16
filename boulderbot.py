@@ -5,11 +5,8 @@ import requests
 from dataclasses import dataclass
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackContext
-import bouldergarten
-import boulderklub
-import webclimber
 import time
-from gyms import GymNames, gyms, get_gym_information
+from gyms import GymName, gyms, get_gym_information
 
 LOCAL = True
 PORT = int(os.environ.get('PORT', 5000))
