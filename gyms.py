@@ -1,7 +1,7 @@
 import os
 import re
 import time
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import json
 import logging
 from selenium.webdriver.common.by import By
@@ -72,44 +72,46 @@ def cache_location(gym):
   return "cache/" + gym.value + ".json"
 
 def refresh_all_gyms_information():
-  for gym in gyms:
-    refresh_gym_information(gym, days_to_fetch={0,1,2,3,4,5,6})
+  custom_gyms = [GymName.BOULDERKLUB]
+  all_gyms_information = [
+    { gym.value : refresh_gym_information(gym, days_to_fetch={0,1}) }
+    for gym in custom_gyms
+  ]
+  all_info_json = json.dumps(all_gyms_information, indent=4)
+  with open("cache/all.json", "w+") as f:
+    f.write(all_info_json)
 
 def refresh_gym_information(gym: GymName, days_to_fetch: {int} = {0}):
   # assert days_to_fetch == {0,1,2,3,4,5,6}, "Currently only supporting refreshing info for all week, for simplicity"
+  gym_information = {}
   start_time = time.time()
   driver = get_driver()
   driver.get(gyms[gym]["link"])
 
-  if gym_is_webclimber(gym):
-    time.sleep(2) # TODO: test without
-    for day_offset in days_to_fetch:
-      day_of_month = date.today().day + day_offset
-      element = driver.find_element(By.XPATH, f"//td[text()='{day_of_month}']").click()
+  for day_offset in days_to_fetch:
+    date_to_check = date.today() + timedelta(days=day_offset)
+    slots_per_day_html = []
+    if gym_is_webclimber(gym):
+      time.sleep(2) # TODO: test without
+      element = driver.find_element(By.XPATH, f"//td[text()='{date_to_check.day}']").click()
       time.sleep(2)
       element = driver.find_element(By.ID, "offerTimes")
       time.sleep(2)
-      slots = element.get_attribute('outerHTML')
-      print(process_slots_html(slots, gym))
-    return
-  else:
-    if gym == GymName.BOULDERGARTEN:
-      bouldergarten_extra_steps_for_checking(driver)
-    element = driver.find_element(By.CSS_SELECTOR, ".drp-calendar-day-dates").click()
-    logger.info("Cal-day-dates clicked")
-    # XXX: We might have to exclude the dates with the `drp-date-not-relevant` class, unless date is pre-set
-    # Selenium has a not, but unclear how to apply it to the class of the containing elements.
-    # https://www.qafox.com/selenium-locators-using-not-in-css-selectors/ (too long article)
-    # items = driver.find_elements_by_css_selector("div.examplenameA:not(.examplenameB)")
-    element = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
-    slots_html = element.get_attribute('innerHTML')
-
-  slots = process_slots_html(slots_html, gym)
+      slots_html = element.get_attribute('outerHTML')
+    else:
+      if gym == GymName.BOULDERGARTEN:
+        bouldergarten_extra_steps_for_checking(driver)
+      # TODO: check per day
+      time.sleep(2)
+      element = driver.find_element(By.XPATH, f"//div[text()='\n\t\t\t\t\t\t\t\t{date_to_check.day}\n\t\t\t\t\t\t\t']").click()
+      logger.info(f"{gym.value}: Opened slots for day {date_to_check}")
+      element = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
+      slots_html = element.get_attribute('innerHTML')
+    gym_information[str(date_to_check)] = process_slots_html(slots_html, gym)
   end_time = time.time()
   last_cached_timestamp = end_time
-
   logger.info(f"Checked {gym.value} for {len(days_to_fetch)} day(s) in {round(end_time - start_time, 2)}s")
-  return slots
+  return gym_information
 
 
 def bouldergarten_extra_steps_for_checking(driver):
