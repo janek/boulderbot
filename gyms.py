@@ -76,7 +76,7 @@ def refresh_all_gyms_information():
     refresh_gym_information(gym, days_to_fetch={0,1,2,3,4,5,6})
 
 def refresh_gym_information(gym: GymName, days_to_fetch: {int} = {0}):
-  assert days_to_fetch == {0,1,2,3,4,5,6}, "Currently only supporting refreshing info for all week, for simplicity"
+  # assert days_to_fetch == {0,1,2,3,4,5,6}, "Currently only supporting refreshing info for all week, for simplicity"
   start_time = time.time()
   driver = get_driver()
   driver.get(gyms[gym]["link"])
@@ -86,11 +86,11 @@ def refresh_gym_information(gym: GymName, days_to_fetch: {int} = {0}):
     for day_offset in days_to_fetch:
       day_of_month = date.today().day + day_offset
       element = driver.find_element(By.XPATH, f"//td[text()='{day_of_month}']").click()
-      time.sleep(1)
+      time.sleep(2)
       element = driver.find_element(By.ID, "offerTimes")
+      time.sleep(2)
       dates = element.get_attribute('outerHTML')
-      time.sleep(1)
-      print(process_dates_html(dates, gym))
+      print(process_slots_html(dates, gym))
     return
   else:
     if gym == GymName.BOULDERGARTEN:
@@ -102,14 +102,14 @@ def refresh_gym_information(gym: GymName, days_to_fetch: {int} = {0}):
     # https://www.qafox.com/selenium-locators-using-not-in-css-selectors/ (too long article)
     # items = driver.find_elements_by_css_selector("div.examplenameA:not(.examplenameB)")
     element = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
-    dates = element.get_attribute('innerHTML')
+    slots_html = element.get_attribute('innerHTML')
 
-  dates = process_dates_html(dates, gym)
+  slots = process_slots_html(slots_html, gym)
   end_time = time.time()
   last_cached_timestamp = end_time
 
   logger.info(f"Checked {gym.value} for {len(days_to_fetch)} day(s) in {round(end_time - start_time, 2)}s")
-  return dates
+  return slots
 
 
 def bouldergarten_extra_steps_for_checking(driver):
@@ -138,19 +138,19 @@ def bouldergarten_extra_steps_for_checking(driver):
     return element
 
 
-def process_dates_html(dates: str, gym: GymName):
-  # save_dates_html_to_fixture(dates, source=gym)
+def process_slots_html(slots: str, gym: GymName):
+  # save_dates_html_to_fixture(slots, source=gym)
   if gym_is_webclimber(gym):
-    dates = re.sub('<[^>]*>', '', dates)
-    dates = re.sub('Buchen', '\n', dates)
-    dates = re.sub('Uhr', '- ', dates)
-    lines = [line.strip() for line in dates.splitlines() if line.strip() != '']
-    # dates = re.sub('mehr als 10 Plätze verfügbar', '10+ places', dates) # TODO: note down somewhere that 10 is 10+
-    # dates = re.sub(r'^\s*S', 'a', dates) # TODO: figure out what this means
+    slots = re.sub('<[^>]*>', '', slots)
+    slots = re.sub('Buchen', '\n', slots)
+    slots = re.sub('Uhr', '- ', slots)
+    lines = [line.strip() for line in slots.splitlines() if line.strip() != '']
+    # slots = re.sub('mehr als 10 Plätze verfügbar', '10+ places', slots) # TODO: note down somewhere that 10 is 10+
+    # slots = re.sub(r'^\s*S', 'a', slots) # TODO: figure out what this means
   else:
-    dates = re.sub('<[^>]*>', '', dates)
+    slots = re.sub('<[^>]*>', '', slots)
     lines = [
-      line.strip() for line in dates.splitlines()
+      line.strip() for line in slots.splitlines()
       if len(re.sub(r'\s*', '', line)) > 0 # Clean up whitespace lines
       and not "Buchen" in line and not "begonnen" in line # Filter out extra lines for a consistent output
     ]
@@ -190,11 +190,11 @@ def format_slot_information_for_telegram(slots):
   ]
 
 
-def save_dates_html_to_fixture(dates, source):
+def save_dates_html_to_fixture(slots, source):
   logger.info("saving?")
   filepath = "fixtures/dates_" + source + ".txt"
   with open(filepath, "w+") as file:
-    file.write(dates)
+    file.write(slots)
 
 
 def book(user):
