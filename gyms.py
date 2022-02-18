@@ -89,8 +89,8 @@ def refresh_gym_information(gym: GymName, days_to_fetch: {int} = {0}):
       time.sleep(2)
       element = driver.find_element(By.ID, "offerTimes")
       time.sleep(2)
-      dates = element.get_attribute('outerHTML')
-      print(process_slots_html(dates, gym))
+      slots = element.get_attribute('outerHTML')
+      print(process_slots_html(slots, gym))
     return
   else:
     if gym == GymName.BOULDERGARTEN:
