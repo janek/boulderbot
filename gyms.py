@@ -1,6 +1,7 @@
 import os
 import re
 import time
+from datetime import date, datetime
 import json
 import logging
 from selenium.webdriver.common.by import By
@@ -51,14 +52,16 @@ def gym_is_webclimber(gym: GymName):
 
 # XXX: Gym information should probably be stored in a single JSON file and not multiple,
 # also consider a database.
-def get_gym_information(gym: GymName, force_last_cached_timestamp=None):
+# XXX: force_last_cached_timestamp can be removed or reframed as force_refresh?
+def get_gym_information(gym: GymName, days_to_fetch: {int} = {0}, force_last_cached_timestamp=None):
   """ Checks cache for gym info. If cache is too old, refreshes the info"""
+  assert days_to_fetch >= 0 and days_to_fetch <= 6, "We can only process 7 days"
   cached_timestamp = force_last_cached_timestamp if force_last_cached_timestamp != None else last_cached_timestamp
   cache_age_minutes = round((time.time() - cached_timestamp)/60)
   logger.info("Cache age: " + str(cache_age_minutes) + " min")
   if cache_age_minutes > MAX_CACHE_AGE_MINUTES:
     logger.info("Refreshing gym information")
-    slots = refresh_gym_information(gym)
+    slots = refresh_gym_information(gym, days_to_fetch=days_to_fetch)
   else:
     logger.info("Loading gym information from cache")
     with open(cache_location(gym), "r") as file:
@@ -68,16 +71,27 @@ def get_gym_information(gym: GymName, force_last_cached_timestamp=None):
 def cache_location(gym):
   return "cache/" + gym.value + ".json"
 
-def refresh_gym_information(gym: GymName):
+def refresh_all_gyms_information():
+  for gym in gyms:
+    refresh_gym_information(gym, days_to_fetch={0,1,2,3,4,5,6})
+
+def refresh_gym_information(gym: GymName, days_to_fetch: {int} = {0}):
+  assert days_to_fetch == {0,1,2,3,4,5,6}, "Currently only supporting refreshing info for all week, for simplicity"
   start_time = time.time()
   driver = get_driver()
   driver.get(gyms[gym]["link"])
 
   if gym_is_webclimber(gym):
     time.sleep(2) # TODO: test without
-    element = driver.find_element(By.ID, "offerTimes")
-    # TODO: extract the lines below (can outer be inner or sth? print after the base run works
-    dates = element.get_attribute('outerHTML')
+    for day_offset in days_to_fetch:
+      day_of_month = date.today().day + day_offset
+      element = driver.find_element(By.XPATH, f"//td[text()='{day_of_month}']").click()
+      time.sleep(1)
+      element = driver.find_element(By.ID, "offerTimes")
+      dates = element.get_attribute('outerHTML')
+      time.sleep(1)
+      print(process_dates_html(dates, gym))
+    return
   else:
     if gym == GymName.BOULDERGARTEN:
       bouldergarten_extra_steps_for_checking(driver)
@@ -94,7 +108,7 @@ def refresh_gym_information(gym: GymName):
   end_time = time.time()
   last_cached_timestamp = end_time
 
-  logger.info(f"Checked {gym.value} in {round(end_time - start_time, 2)}s")
+  logger.info(f"Checked {gym.value} for {len(days_to_fetch)} day(s) in {round(end_time - start_time, 2)}s")
   return dates
 
 
