@@ -72,7 +72,7 @@ def cache_location(gym):
   return "cache/" + gym.value + ".json"
 
 def refresh_all_gyms_information():
-  custom_gyms = [GymName.BOULDERKLUB]
+  custom_gyms = [GymName.BOULDERGARTEN, GymName.BOULDERKLUB]
   all_gyms_information = [
     { gym.value : refresh_gym_information(gym, days_to_fetch={0,1}) }
     for gym in custom_gyms
@@ -87,22 +87,21 @@ def refresh_gym_information(gym: GymName, days_to_fetch: {int} = {0}):
   start_time = time.time()
   driver = get_driver()
   driver.get(gyms[gym]["link"])
+  time.sleep(2) # TODO: test without
+
+  if gym == GymName.BOULDERGARTEN:
+    prepare_bouldergarten(driver)
 
   for day_offset in days_to_fetch:
     date_to_check = date.today() + timedelta(days=day_offset)
     slots_per_day_html = []
     if gym_is_webclimber(gym):
-      time.sleep(2) # TODO: test without
       element = driver.find_element(By.XPATH, f"//td[text()='{date_to_check.day}']").click()
       time.sleep(2)
       element = driver.find_element(By.ID, "offerTimes")
       time.sleep(2)
       slots_html = element.get_attribute('outerHTML')
     else:
-      if gym == GymName.BOULDERGARTEN:
-        bouldergarten_extra_steps_for_checking(driver)
-      # TODO: check per day
-      time.sleep(2)
       element = driver.find_element(By.XPATH, f"//div[text()='\n\t\t\t\t\t\t\t\t{date_to_check.day}\n\t\t\t\t\t\t\t']").click()
       logger.info(f"{gym.value}: Opened slots for day {date_to_check}")
       element = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
@@ -114,7 +113,7 @@ def refresh_gym_information(gym: GymName, days_to_fetch: {int} = {0}):
   return gym_information
 
 
-def bouldergarten_extra_steps_for_checking(driver):
+def prepare_bouldergarten(driver):
     # XXX: JS "clicks" vs "mouse" clicks()
     # 1. the issue that forced our usage of JS click might be resolved by waits)
     # 2. JS "clicks" don't seem to work on non-clickable HTML elems, while "mouse" clicks() do
