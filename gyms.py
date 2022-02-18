@@ -72,7 +72,8 @@ def cache_location(gym):
   return "cache/" + gym.value + ".json"
 
 def refresh_all_gyms_information():
-  custom_gyms = [GymName.BOULDERGARTEN, GymName.BOULDERKLUB]
+  # custom_gyms = [GymName.BOULDERGARTEN, GymName.BOULDERKLUB]
+  custom_gyms = [GymName.DER_KEGEL, GymName.SUEDBLOC]
   all_gyms_information = [
     { gym.value : refresh_gym_information(gym, days_to_fetch={0,1}) }
     for gym in custom_gyms
@@ -140,7 +141,7 @@ def prepare_bouldergarten(driver):
 
 
 def process_slots_html(slots: str, gym: GymName):
-  # save_dates_html_to_fixture(slots, source=gym)
+  save_slots_html_to_fixture(slots, gym)
   if gym_is_webclimber(gym):
     slots = re.sub('<[^>]*>', '', slots)
     slots = re.sub('Buchen', '\n', slots)
@@ -191,12 +192,11 @@ def format_slot_information_for_telegram(slots):
   ]
 
 
-def save_dates_html_to_fixture(slots, source):
-  logger.info("saving?")
-  filepath = "fixtures/dates_" + source + ".txt"
+def save_slots_html_to_fixture(slots, gym):
+  logger.info("Saving to fixture")
+  filepath = "fixtures/slots_" + gym.value + ".html"
   with open(filepath, "w+") as file:
     file.write(slots)
-
 
 def book(user):
   return "Coming soon!"
