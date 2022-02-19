@@ -1,5 +1,4 @@
 import os
-import schedule
 import logging
 import requests
 from dataclasses import dataclass
