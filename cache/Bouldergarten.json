@@ -2,116 +2,26 @@
     {
         "start_time": "10:00",
         "end_time": "12:00",
-        "free_places": 0
+        "free_places": 2
     },
     {
         "start_time": "10:30",
         "end_time": "12:30",
-        "free_places": 0
-    },
-    {
-        "start_time": "11:00",
-        "end_time": "13:00",
-        "free_places": 0
-    },
-    {
-        "start_time": "11:30",
-        "end_time": "13:30",
-        "free_places": 2
-    },
-    {
-        "start_time": "12:00",
-        "end_time": "14:00",
-        "free_places": 1
-    },
-    {
-        "start_time": "12:30",
-        "end_time": "14:30",
-        "free_places": 10
-    },
-    {
-        "start_time": "13:00",
-        "end_time": "15:00",
         "free_places": 6
     },
     {
-        "start_time": "13:30",
-        "end_time": "15:30",
-        "free_places": 14
-    },
-    {
-        "start_time": "14:00",
-        "end_time": "16:00",
-        "free_places": 8
-    },
-    {
-        "start_time": "14:30",
-        "end_time": "16:30",
-        "free_places": 5
-    },
-    {
-        "start_time": "15:00",
+        "start_time": "11:00",
         "end_time": "17:00",
-        "free_places": 0
+        "free_places": 13
     },
     {
         "start_time": "15:30",
         "end_time": "17:30",
-        "free_places": 0
+        "free_places": 7
     },
     {
         "start_time": "16:00",
         "end_time": "18:00",
-        "free_places": 0
-    },
-    {
-        "start_time": "16:30",
-        "end_time": "18:30",
-        "free_places": 0
-    },
-    {
-        "start_time": "17:00",
-        "end_time": "19:00",
-        "free_places": 0
-    },
-    {
-        "start_time": "17:30",
-        "end_time": "19:30",
-        "free_places": 0
-    },
-    {
-        "start_time": "18:00",
-        "end_time": "20:00",
         "free_places": 1
-    },
-    {
-        "start_time": "18:30",
-        "end_time": "20:30",
-        "free_places": 0
-    },
-    {
-        "start_time": "19:00",
-        "end_time": "21:00",
-        "free_places": 0
-    },
-    {
-        "start_time": "19:30",
-        "end_time": "21:30",
-        "free_places": 0
-    },
-    {
-        "start_time": "20:00",
-        "end_time": "22:00",
-        "free_places": 0
-    },
-    {
-        "start_time": "20:30",
-        "end_time": "22:30",
-        "free_places": 0
-    },
-    {
-        "start_time": "21:00",
-        "end_time": "23:00",
-        "free_places": 2
     }
 ]

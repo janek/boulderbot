@@ -1,347 +1,289 @@
-    {
-        "Der Kegel": {
-            "2022-02-19": [
-                {
-                    "start_time": "16:02",
-                    "end_time": "18:00",
-                    "free_places": 2
-                },
-                {
-                    "start_time": "16:15",
-                    "end_time": "18:15",
-                    "free_places": 2
-                },
-                {
-                    "start_time": "16:30",
-                    "end_time": "18:30",
-                    "free_places": 2
-                },
-                {
-                    "start_time": "16:45",
-                    "end_time": "18:45",
-                    "free_places": 9
-                },
-                {
-                    "start_time": "17:00",
-                    "end_time": "19:00",
-                    "free_places": 9
-                },
-                {
-                    "start_time": "17:15",
-                    "end_time": "19:15",
-                    "free_places": 9
-                },
-                {
-                    "start_time": "17:30",
-                    "end_time": "19:30",
-                    "free_places": 9
-                },
-                {
-                    "start_time": "17:45",
-                    "end_time": "23:00",
-                    "free_places": 12
-                }
-            ],
-            "2022-02-20": [
-                {
-                    "start_time": "09:00",
-                    "end_time": "11:00",
-                    "free_places": 10
-                },
-                {
-                    "start_time": "09:15",
-                    "end_time": "11:15",
-                    "free_places": 2
-                },
-                {
-                    "start_time": "14:45",
-                    "end_time": "16:45",
-                    "free_places": 2
-                },
-                {
-                    "start_time": "15:00",
-                    "end_time": "17:00",
-                    "free_places": 3
-                },
-                {
-                    "start_time": "15:15",
-                    "end_time": "17:15",
-                    "free_places": 3
-                },
-                {
-                    "start_time": "15:30",
-                    "end_time": "17:30",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "15:45",
-                    "end_time": "17:45",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "16:00",
-                    "end_time": "23:00",
-                    "free_places": 12
-                }
-            ],
-            "2022-02-21": [
-                {
-                    "start_time": "09:00",
-                    "end_time": "19:00",
-                    "free_places": 35
-                },
-                {
-                    "start_time": "17:15",
-                    "end_time": "19:15",
-                    "free_places": 6
-                },
-                {
-                    "start_time": "17:30",
-                    "end_time": "19:30",
-                    "free_places": 5
-                },
-                {
-                    "start_time": "17:45",
-                    "end_time": "19:45",
-                    "free_places": 5
-                },
-                {
-                    "start_time": "18:00",
-                    "end_time": "20:00",
-                    "free_places": 5
-                },
-                {
-                    "start_time": "18:15",
-                    "end_time": "20:15",
-                    "free_places": 5
-                },
-                {
-                    "start_time": "18:30",
-                    "end_time": "20:30",
-                    "free_places": 5
-                },
-                {
-                    "start_time": "18:45",
-                    "end_time": "20:45",
-                    "free_places": 5
-                },
-                {
-                    "start_time": "19:00",
-                    "end_time": "21:00",
-                    "free_places": 5
-                },
-                {
-                    "start_time": "19:15",
-                    "end_time": "21:15",
-                    "free_places": 5
-                },
-                {
-                    "start_time": "19:30",
-                    "end_time": "21:30",
-                    "free_places": 5
-                },
-                {
-                    "start_time": "19:45",
-                    "end_time": "21:45",
-                    "free_places": 5
-                },
-                {
-                    "start_time": "20:00",
-                    "end_time": "22:00",
-                    "free_places": 5
-                },
-                {
-                    "start_time": "20:15",
-                    "end_time": "22:15",
-                    "free_places": 9
-                },
-                {
-                    "start_time": "20:30",
-                    "end_time": "23:00",
-                    "free_places": 18
-                }
-            ]
-        },
-        "Suedbloc": {
-            "2022-02-19": [
-                {
-                    "start_time": "12:30",
-                    "end_time": "15:00",
-                    "free_places": 10
-                },
-                {
-                    "start_time": "15:30",
-                    "end_time": "18:00",
-                    "free_places": 3
-                },
-                {
-                    "start_time": "15:45",
-                    "end_time": "18:15",
-                    "free_places": 3
-                },
-                {
-                    "start_time": "16:00",
-                    "end_time": "18:30",
-                    "free_places": 3
-                },
-                {
-                    "start_time": "16:15",
-                    "end_time": "18:45",
-                    "free_places": 6
-                },
-                {
-                    "start_time": "16:30",
-                    "end_time": "19:00",
-                    "free_places": 6
-                },
-                {
-                    "start_time": "16:45",
-                    "end_time": "19:15",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "17:00",
-                    "end_time": "23:00",
-                    "free_places": 10
-                }
-            ],
-            "2022-02-20": [
-                {
-                    "start_time": "09:00",
-                    "end_time": "11:30",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "09:15",
-                    "end_time": "11:45",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "09:30",
-                    "end_time": "12:00",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "09:45",
-                    "end_time": "12:15",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "10:00",
-                    "end_time": "12:30",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "10:15",
-                    "end_time": "12:45",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "10:30",
-                    "end_time": "13:00",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "10:45",
-                    "end_time": "13:15",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "11:00",
-                    "end_time": "13:30",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "11:15",
-                    "end_time": "13:45",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "11:30",
-                    "end_time": "23:00",
-                    "free_places": 10
-                }
-            ],
-            "2022-02-21": [
-                {
-                    "start_time": "09:00",
-                    "end_time": "23:00",
-                    "free_places": 10
-                }
-            ]
-        },
-        "Bouldergarten": {
-            "2022-02-19": [],
-            "2022-02-20": [],
-            "2022-02-21": [
-                {
-                    "start_time": "10:00",
-                    "end_time": "12:00",
-                    "free_places": 2
-                },
-                {
-                    "start_time": "10:30",
-                    "end_time": "17:30",
-                    "free_places": 11
-                },
-                {
-                    "start_time": "16:00",
-                    "end_time": "18:00",
-                    "free_places": 5
-                },
-                {
-                    "start_time": "16:30",
-                    "end_time": "18:30",
-                    "free_places": 2
-                },
-                {
-                    "start_time": "19:30",
-                    "end_time": "21:30",
-                    "free_places": 1
-                }
-            ]
-        },
-        "Boulderklub": {
-            "2022-02-19": [
-                {
-                    "start_time": "19:00",
-                    "end_time": "21:00",
-                    "free_places": 9
-                },
-                {
-                    "start_time": "19:30",
-                    "end_time": "21:30",
-                    "free_places": 8
-                },
-                {
-                    "start_time": "20:00",
-                    "end_time": "22:00",
-                    "free_places": 11
-                }
-            ],
-            "2022-02-20": [
-                {
-                    "start_time": "18:30",
-                    "end_time": "22:00",
-                    "free_places": 13
-                }
-            ],
-            "2022-02-21": [
-                {
-                    "start_time": "07:00",
-                    "end_time": "18:00",
-                    "free_places": 22
-                },
-                {
-                    "start_time": "16:30",
-                    "end_time": "18:30",
-                    "free_places": 9
-                },
-                {
-                    "start_time": "20:30",
-                    "end_time": "22:00",
-                    "free_places": 5
-                }
-            ]
-        }
+{
+    "Der Kegel": {
+        "2022-02-19": [
+            {
+                "start_time": "19:00",
+                "end_time": "23:00",
+                "free_places": 11
+            }
+        ],
+        "2022-02-20": [
+            {
+                "start_time": "09:00",
+                "end_time": "11:00",
+                "free_places": 1
+            },
+            {
+                "start_time": "17:30",
+                "end_time": "19:30",
+                "free_places": 1
+            },
+            {
+                "start_time": "17:45",
+                "end_time": "19:45",
+                "free_places": 1
+            },
+            {
+                "start_time": "18:00",
+                "end_time": "20:00",
+                "free_places": 2
+            },
+            {
+                "start_time": "18:15",
+                "end_time": "20:15",
+                "free_places": 2
+            },
+            {
+                "start_time": "18:30",
+                "end_time": "20:30",
+                "free_places": 6
+            },
+            {
+                "start_time": "18:45",
+                "end_time": "20:45",
+                "free_places": 6
+            },
+            {
+                "start_time": "19:00",
+                "end_time": "21:00",
+                "free_places": 9
+            },
+            {
+                "start_time": "19:15",
+                "end_time": "23:00",
+                "free_places": 10
+            }
+        ],
+        "2022-02-21": [
+            {
+                "start_time": "09:00",
+                "end_time": "18:15",
+                "free_places": 35
+            },
+            {
+                "start_time": "16:30",
+                "end_time": "18:30",
+                "free_places": 9
+            },
+            {
+                "start_time": "16:45",
+                "end_time": "18:45",
+                "free_places": 8
+            },
+            {
+                "start_time": "17:00",
+                "end_time": "19:00",
+                "free_places": 8
+            },
+            {
+                "start_time": "17:15",
+                "end_time": "19:15",
+                "free_places": 4
+            },
+            {
+                "start_time": "17:30",
+                "end_time": "19:30",
+                "free_places": 3
+            },
+            {
+                "start_time": "17:45",
+                "end_time": "19:45",
+                "free_places": 3
+            },
+            {
+                "start_time": "18:00",
+                "end_time": "20:00",
+                "free_places": 3
+            },
+            {
+                "start_time": "18:15",
+                "end_time": "20:15",
+                "free_places": 3
+            },
+            {
+                "start_time": "18:30",
+                "end_time": "20:30",
+                "free_places": 3
+            },
+            {
+                "start_time": "18:45",
+                "end_time": "20:45",
+                "free_places": 3
+            },
+            {
+                "start_time": "19:00",
+                "end_time": "21:00",
+                "free_places": 3
+            },
+            {
+                "start_time": "19:15",
+                "end_time": "21:15",
+                "free_places": 3
+            },
+            {
+                "start_time": "19:30",
+                "end_time": "21:30",
+                "free_places": 3
+            },
+            {
+                "start_time": "19:45",
+                "end_time": "21:45",
+                "free_places": 3
+            },
+            {
+                "start_time": "20:00",
+                "end_time": "22:00",
+                "free_places": 3
+            },
+            {
+                "start_time": "20:15",
+                "end_time": "22:15",
+                "free_places": 7
+            },
+            {
+                "start_time": "20:30",
+                "end_time": "23:00",
+                "free_places": 16
+            }
+        ]
+    },
+    "Suedbloc": {
+        "2022-02-19": [
+            {
+                "start_time": "19:15",
+                "end_time": "23:00",
+                "free_places": 10
+            }
+        ],
+        "2022-02-20": [
+            {
+                "start_time": "14:00",
+                "end_time": "16:30",
+                "free_places": 2
+            },
+            {
+                "start_time": "14:15",
+                "end_time": "16:45",
+                "free_places": 2
+            },
+            {
+                "start_time": "14:30",
+                "end_time": "17:00",
+                "free_places": 4
+            },
+            {
+                "start_time": "14:45",
+                "end_time": "17:15",
+                "free_places": 9
+            },
+            {
+                "start_time": "15:00",
+                "end_time": "23:00",
+                "free_places": 10
+            }
+        ],
+        "2022-02-21": [
+            {
+                "start_time": "09:00",
+                "end_time": "23:00",
+                "free_places": 10
+            }
+        ]
+    },
+    "Bouldergarten": {
+        "2022-02-19": [
+            {
+                "start_time": "19:30",
+                "end_time": "21:30",
+                "free_places": 2
+            },
+            {
+                "start_time": "20:00",
+                "end_time": "22:00",
+                "free_places": 2
+            }
+        ],
+        "2022-02-20": [
+            {
+                "start_time": "19:30",
+                "end_time": "21:30",
+                "free_places": 1
+            }
+        ],
+        "2022-02-21": [
+            {
+                "start_time": "10:00",
+                "end_time": "12:00",
+                "free_places": 2
+            },
+            {
+                "start_time": "10:30",
+                "end_time": "12:30",
+                "free_places": 6
+            },
+            {
+                "start_time": "11:00",
+                "end_time": "17:00",
+                "free_places": 13
+            },
+            {
+                "start_time": "15:30",
+                "end_time": "17:30",
+                "free_places": 7
+            },
+            {
+                "start_time": "16:00",
+                "end_time": "18:00",
+                "free_places": 1
+            }
+        ]
+    },
+    "Boulderklub": {
+        "2022-02-19": [
+            {
+                "start_time": "19:30",
+                "end_time": "21:30",
+                "free_places": 1
+            },
+            {
+                "start_time": "20:00",
+                "end_time": "22:00",
+                "free_places": 2
+            },
+            {
+                "start_time": "20:30",
+                "end_time": "22:00",
+                "free_places": 15
+            }
+        ],
+        "2022-02-20": [
+            {
+                "start_time": "19:30",
+                "end_time": "21:30",
+                "free_places": 7
+            },
+            {
+                "start_time": "20:00",
+                "end_time": "22:00",
+                "free_places": 15
+            }
+        ],
+        "2022-02-21": [
+            {
+                "start_time": "07:00",
+                "end_time": "18:00",
+                "free_places": 22
+            },
+            {
+                "start_time": "16:30",
+                "end_time": "18:30",
+                "free_places": 2
+            },
+            {
+                "start_time": "20:30",
+                "end_time": "22:00",
+                "free_places": 1
+            }
+        ]
     }
+}

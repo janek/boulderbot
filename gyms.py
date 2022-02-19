@@ -105,7 +105,7 @@ def refresh_gym_information(gym: GymName, days_to_fetch: {int} = {0}):
       logger.info(f"{gym.value}: Opened slots for day {date_to_check}")
       element = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
       slots_html = element.get_attribute('innerHTML')
-    save_slots_html_to_fixture(slots_html, gym, date_to_check)
+    # save_slots_html_to_fixture(slots_html, gym, date_to_check)
     gym_information[str(date_to_check)] = process_slots_html(slots_html, gym)
   end_time = time.time()
   last_cached_timestamp = end_time
@@ -257,8 +257,8 @@ def format_slot_information_for_telegram(slots):
 
 
 def save_slots_html_to_fixture(slots, gym, date):
-  logger.info(f"Saving info for {gym.value} to fixture")
-  filepath = "fixtures/slots_" + gym.value + "_" + date + ".html"
+  logger.info(f"Saving info for {gym.value} on {str(date)} to fixture")
+  filepath = "fixtures/slots_" + gym.value + "_" + str(date) + ".html"
   with open(filepath, "w+") as file:
     file.write(slots)
 
