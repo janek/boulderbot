@@ -73,9 +73,10 @@ def cache_location(gym):
 
 def refresh_all_gyms_information():
   # custom_gyms = [GymName.BOULDERGARTEN, GymName.BOULDERKLUB]
-  custom_gyms = [GymName.DER_KEGEL, GymName.SUEDBLOC]
+  # custom_gyms = [GymName.DER_KEGEL, GymName.SUEDBLOC]
+  custom_gyms = gyms
   all_gyms_information = [
-    { gym.value : refresh_gym_information(gym, days_to_fetch={0,1}) }
+    { gym.value : refresh_gym_information(gym, days_to_fetch={0,1,2}) }
     for gym in custom_gyms
   ]
   all_info_json = json.dumps(all_gyms_information, indent=4)
@@ -160,28 +161,97 @@ def process_slots_html(slots: str, gym: GymName):
     status_strings = lines[::3]
     lines = [date + " - " + status for (date, status) in zip(date_strings, status_strings)]
 
+  # XXX: this seems to refer to webclimber only
   if "keine plätze" in lines[0].lower():
     logger.info("caught no slots")
-    slots = []
+    slots_string = "None"
   else:
-    logger.info(lines)
+    def clean_num_slots(num_slots):
+      num_slots = re.sub("[^0-9]", "", num_slots)
+      return (0 if num_slots == "" else int(num_slots))
+
     info = [tuple(line.split(" - ")) for line in lines]
-    info = [(start, end, re.sub("[^0-9]", "", num_slots)) for (start, end, num_slots) in info]
+    info = [(start, end, clean_num_slots(num_slots)) for (start, end, num_slots) in info]
+    info = filter(lambda i: i[2] != 0, info)
 
-    slots =  [
-        {
-          "start_time": start,
-          "end_time": end,
-          "free_places": (0 if num_slots == "" else int(num_slots))
-        } for (start, end, num_slots) in info
-    ]
+    if info == []:
+      slots_string = "None"
+    else:
+      slots =  [
+          {
+            "start_time": start,
+            "end_time": end,
+            "free_places": (0 if num_slots == "" else int(num_slots))
+          } for (start, end, num_slots) in info
+      ]
 
-  slots_json = json.dumps(slots, indent=4)
+      slots = merge_slots_into_mutlislots(slots)
+
+    slots_string = json.dumps(slots, indent=4)
   filename = cache_location(gym)
   os.makedirs(os.path.dirname(filename), exist_ok=True)
   with open(filename, "w") as file:
-      file.write(slots_json)
+      file.write(slots_string)
   return slots
+
+def merge_slots_info_multislots_iterative(slots):
+  # TODO: remove after playing with it (or not)
+  """ Take a JSON-like list of slots and combine slots that are full (10+ places) into multi-slots"""
+  multislots = []
+  i = 0
+  while i < len(slots) - 2:
+    # Open a multislot
+    multislot_start_time = slots[i]["start_time"]
+    # Advance while on a slot that should be grouped (one with 10+ places)
+
+    while slots[i]["free_places"] >= 10:
+      print("  slot included")
+      i += 1
+
+    # When you reach one that shouldn't, the group should close before it
+    multislots.append({
+      "start_time": multislot_start_time,
+      "end_time": slots[i-1]["end_time"],
+      "free_places": slots[i-1]["free_places"] # Assigns from last in group, which is fine
+    })
+
+    i += 1
+
+  return multislots
+
+# multislots = rec(slots, current_multislot=None, multislots=[])
+
+def merge_slots_into_mutlislots(slots, current_multislot, multislots):
+  # print(f"Multislots: {multislots}")
+  if slots == []:
+    return multislots
+  head, *tail = slots
+
+  if head["free_places"] >= 10:
+    # This slot should be added to a group, or open one
+    # Open up a multislot, if it's not open yet
+    if current_multislot == None:
+      current_multislot = head
+    else:
+      # If a multislot is open, update its end_time
+      current_multislot["end_time"] = head["end_time"]
+
+    # If this is the last slot, close the multislot
+    if tail == []:
+      multislots.append(current_multislot)
+    # Move on, removing one slot
+    return rec(tail, current_multislot, multislots)
+
+  if head["free_places"] < 10:
+    # This slot does not belong to a group
+    # If there's an open mutlislot, close and save it
+    if current_multislot != None:
+      multislots.append(current_multislot)
+      # print("Closed and appended a multislot")
+    # print(f"On a normal slot, appending {head} to {multislots}")
+    multislots.append(head)
+    # Close the multislot by passing None, add current slot
+    return rec(tail, None, multislots)
 
 
 def format_slot_information_for_telegram(slots):
