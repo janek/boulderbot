@@ -108,6 +108,7 @@ def refresh_gym_information(gym: GymName, days_to_fetch: {int} = {0}):
       logger.info(f"{gym.value}: Opened slots for day {date_to_check}")
       element = driver.find_element(By.CSS_SELECTOR, ".drp-course-dates-list-wrap")
       slots_html = element.get_attribute('innerHTML')
+    save_slots_html_to_fixture(slots_html, gym, date_to_check)
     gym_information[str(date_to_check)] = process_slots_html(slots_html, gym)
   end_time = time.time()
   last_cached_timestamp = end_time
@@ -142,7 +143,6 @@ def prepare_bouldergarten(driver):
 
 
 def process_slots_html(slots: str, gym: GymName):
-  save_slots_html_to_fixture(slots, gym)
   if gym_is_webclimber(gym):
     slots = re.sub('<[^>]*>', '', slots)
     slots = re.sub('Buchen', '\n', slots)
@@ -175,6 +175,7 @@ def process_slots_html(slots: str, gym: GymName):
     info = filter(lambda i: i[2] != 0, info)
 
     if info == []:
+      # XXX: Consider merging gaps just as multislots are merged. Depends on how data is presented later.
       slots_string = "None"
     else:
       slots =  [
@@ -185,9 +186,8 @@ def process_slots_html(slots: str, gym: GymName):
           } for (start, end, num_slots) in info
       ]
 
-      slots = merge_slots_into_mutlislots(slots)
-
-    slots_string = json.dumps(slots, indent=4)
+      slots = merge_slots_into_mutlislots(slots, None, [])
+      slots_string = json.dumps(slots, indent=4)
   filename = cache_location(gym)
   os.makedirs(os.path.dirname(filename), exist_ok=True)
   with open(filename, "w") as file:
@@ -219,10 +219,7 @@ def merge_slots_info_multislots_iterative(slots):
 
   return multislots
 
-# multislots = rec(slots, current_multislot=None, multislots=[])
-
 def merge_slots_into_mutlislots(slots, current_multislot, multislots):
-  # print(f"Multislots: {multislots}")
   if slots == []:
     return multislots
   head, *tail = slots
@@ -240,7 +237,7 @@ def merge_slots_into_mutlislots(slots, current_multislot, multislots):
     if tail == []:
       multislots.append(current_multislot)
     # Move on, removing one slot
-    return rec(tail, current_multislot, multislots)
+    return merge_slots_into_mutlislots(tail, current_multislot, multislots)
 
   if head["free_places"] < 10:
     # This slot does not belong to a group
@@ -251,7 +248,7 @@ def merge_slots_into_mutlislots(slots, current_multislot, multislots):
     # print(f"On a normal slot, appending {head} to {multislots}")
     multislots.append(head)
     # Close the multislot by passing None, add current slot
-    return rec(tail, None, multislots)
+    return merge_slots_into_mutlislots(tail, None, multislots)
 
 
 def format_slot_information_for_telegram(slots):
@@ -262,9 +259,9 @@ def format_slot_information_for_telegram(slots):
   ]
 
 
-def save_slots_html_to_fixture(slots, gym):
-  logger.info("Saving to fixture")
-  filepath = "fixtures/slots_" + gym.value + ".html"
+def save_slots_html_to_fixture(slots, gym, date):
+  logger.info(f"Saving info for {gym.value} to fixture")
+  filepath = "fixtures/slots_" + gym.value + "_" + date + ".html"
   with open(filepath, "w+") as file:
     file.write(slots)
 
