@@ -1,0 +1,92 @@
+[
+    {
+        "start_time": "09:00",
+        "end_time": "18:15",
+        "free_places": 35
+    },
+    {
+        "start_time": "16:30",
+        "end_time": "18:30",
+        "free_places": 9
+    },
+    {
+        "start_time": "16:45",
+        "end_time": "18:45",
+        "free_places": 8
+    },
+    {
+        "start_time": "17:00",
+        "end_time": "19:00",
+        "free_places": 8
+    },
+    {
+        "start_time": "17:15",
+        "end_time": "19:15",
+        "free_places": 4
+    },
+    {
+        "start_time": "17:30",
+        "end_time": "19:30",
+        "free_places": 3
+    },
+    {
+        "start_time": "17:45",
+        "end_time": "19:45",
+        "free_places": 3
+    },
+    {
+        "start_time": "18:00",
+        "end_time": "20:00",
+        "free_places": 3
+    },
+    {
+        "start_time": "18:15",
+        "end_time": "20:15",
+        "free_places": 3
+    },
+    {
+        "start_time": "18:30",
+        "end_time": "20:30",
+        "free_places": 3
+    },
+    {
+        "start_time": "18:45",
+        "end_time": "20:45",
+        "free_places": 3
+    },
+    {
+        "start_time": "19:00",
+        "end_time": "21:00",
+        "free_places": 3
+    },
+    {
+        "start_time": "19:15",
+        "end_time": "21:15",
+        "free_places": 3
+    },
+    {
+        "start_time": "19:30",
+        "end_time": "21:30",
+        "free_places": 3
+    },
+    {
+        "start_time": "19:45",
+        "end_time": "21:45",
+        "free_places": 3
+    },
+    {
+        "start_time": "20:00",
+        "end_time": "22:00",
+        "free_places": 3
+    },
+    {
+        "start_time": "20:15",
+        "end_time": "22:15",
+        "free_places": 7
+    },
+    {
+        "start_time": "20:30",
+        "end_time": "23:00",
+        "free_places": 16
+    }
+]

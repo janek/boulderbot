@@ -8,7 +8,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def check():
+def check(gym="Boulderklub"):
   start_time = time.time()
   driver = get_driver()
   open_bookings()

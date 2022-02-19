@@ -1,0 +1,27 @@
+[
+    {
+        "start_time": "10:00",
+        "end_time": "12:00",
+        "free_places": 2
+    },
+    {
+        "start_time": "10:30",
+        "end_time": "12:30",
+        "free_places": 6
+    },
+    {
+        "start_time": "11:00",
+        "end_time": "17:00",
+        "free_places": 13
+    },
+    {
+        "start_time": "15:30",
+        "end_time": "17:30",
+        "free_places": 7
+    },
+    {
+        "start_time": "16:00",
+        "end_time": "18:00",
+        "free_places": 1
+    }
+]
