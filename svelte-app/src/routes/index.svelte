@@ -1,11 +1,6 @@
 <script>
-	const halls = ['Bouldergarten', 'Boulderklub', 'Der Kegel', 'Suedbloc'];
-	// TODO: enable TS and define JSON schema?
 	import * as jsonInfo from '/Users/janek/Developer/boulderbot/cache/all.json';
-	const today = new Date().toISOString().slice(0, 10);
-	console.log(jsonInfo.default[halls[2]][today]);
-
-	console.log(hallInfoForToday(halls[2]));
+	const halls = ['Bouldergarten', 'Boulderklub', 'Der Kegel', 'Suedbloc'];
 
 	function hallInfoForToday(hall) {
 		const today = new Date().toISOString().slice(0, 10);
@@ -13,16 +8,16 @@
 	}
 
 	function hallInfoPerDay(hall, day) {
-		console.log(`Getting info for ${hall}, ${day}`);
+		/* Convert JSON to presentable html-ish text.
+  		 'Day' is formatted as 2022-02-18 */
 		const infoPerDay = jsonInfo.default[hall][day];
-		console.log(infoPerDay);
-		console.log(typeof infoPerDay);
-		console.log(infoPerDay.length);
-		console.log('\n');
 		if (infoPerDay.length === 0) {
 			return 'No slots available';
 		}
-		// 'day' formatted as 2022-02-18
+
+		// TODO: write a closure to process n (make 10+ and pad 3)
+		const processFreePlaces = (n) => (n <= 10 ? String(n) : '10+').padStart(3, '\u00A0');
+
 		return infoPerDay.reduce(
 			(outputHTML, slotInformation) =>
 				outputHTML +
@@ -30,7 +25,7 @@
 				' - ' +
 				slotInformation.end_time +
 				' → ' +
-				String(slotInformation.free_places).padStart(2, '\u00A0') +
+				processFreePlaces(slotInformation.free_places) +
 				' places ' +
 				'<br/>',
 			''
