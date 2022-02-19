@@ -17,7 +17,6 @@ def get_driver():
   if driver:
       logger.info("Returning existing driver")
   else:
-      logger.info("Loading driver")
       driver = load_driver()
   return driver
 
