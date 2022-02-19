@@ -75,10 +75,7 @@ def refresh_all_gyms_information():
   # custom_gyms = [GymName.BOULDERGARTEN, GymName.BOULDERKLUB]
   # custom_gyms = [GymName.DER_KEGEL, GymName.SUEDBLOC]
   custom_gyms = gyms
-  all_gyms_information = [
-    { gym.value : refresh_gym_information(gym, days_to_fetch={0,1,2}) }
-    for gym in custom_gyms
-  ]
+  all_gyms_information = {gym.value: refresh_gym_information(gym, days_to_fetch={0,1,2}) for gym in custom_gyms}
   all_info_json = json.dumps(all_gyms_information, indent=4)
   with open("cache/all.json", "w+") as f:
     f.write(all_info_json)
