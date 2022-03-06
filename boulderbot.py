@@ -86,9 +86,7 @@ def program_is_running_on_heroku() -> bool:
 GET_USER_INFO = 0 # More descriptive state name for ConversationHandler
 def main():
     updater = Updater(TOKEN)
-    logger.info('info: Starting bot')
-    logger.error('error: Starting bot')
-    print("Print: stbot")
+    logger.info('Starting bot')
     logger.info("Running on heroku" if program_is_running_on_heroku() else "Running locally")
 
     # Register command handlers
