@@ -57,6 +57,13 @@ def cache_information_about_slots():
     with open("index.html", "w") as file:
         file.write(ans)
 
+def post_to_webhook():
+    info = {"Janek": "cool", "Heroku" : "also cool", "sunday": "great day"}
+    info_json = json.dumps(info, indent=4)
+    res = requests.post('https://webhook.site/51beee18-e899-48b2-9d54-1b8120ecedde', data=info_json)
+    logger.info("post_to_webhook done, " + str(res))
+
+
 def main():
     if not TOKEN:
         raise Exception(f"Could not retrieve {TELEGRAM_BOT_TOKEN}")
@@ -69,8 +76,6 @@ def main():
     dp.add_handler(CommandHandler("book", book_command))
     dp.add_handler(CommandHandler("check", check_command))
 
-    # on any error caused by message or command Warning: seems to conflict with normal error reporting
-    # dp.add_error_handler(error)
 
     # on noncommand i.e message - reply the message on Telegram. Warning: conflicts with the regstration flow!
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
@@ -97,6 +102,12 @@ def main():
         logger.info("Started with polling")
 
     updater.idle()
+    # dp.add_error_handler(error)
+    schedule.every(30).seconds.do(post_to_webhook)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+    post_to_webhook()
 
 @dataclass
 class UserInfoPrompt:
