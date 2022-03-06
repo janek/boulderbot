@@ -98,8 +98,8 @@ def main():
     # on any error caused by message or command Warning: seems to conflict with normal error reporting
     dp.add_error_handler(error)
 
-    # on noncommand i.e message - reply the message on Telegram. Warning: conflicts with the reg. flow
-    # dp.add_handler(MessageHandler(Filters.text, quote))
+    # on noncommand i.e message - reply the message on Telegram. Warning: conflicts with the regstration flow!
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
 
     # User registration/reconfiguration flow
     conv_handler = ConversationHandler(
@@ -111,22 +111,23 @@ def main():
     )
     dp.add_handler(conv_handler)
 
-    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
-    updater.start_polling()
-    updater.idle()
+    # webhook_url_base = "https://ricchardo-bukowski.herokuapp.com/" if program_is_running_on_heroku else "http://localhost/"
 
-    # # # Start the Bot
-    # # if not program_is_running_on_heroku: # TODO: this condition is broken, debug maybe by printing os.environ
-    # logger.info("Running locally")
-    # updater.start_polling()
-    # # else:
-    # # logger.info('Running with webhooks')
-    # # updater.start_webhook(listen="0.0.0.0",
-    # #                     port=int(PORT),
-    # #                     url_path=TOKEN,
-    # #                     webhook_url="https://ricchardo-bukowski.herokuapp.com/" + TOKEN)
-    # logger.info('Started webhook')
-    # updater.idle()
+    # Start the Bot
+    # if not program_is_running_on_heroku: # TODO: this condition is broken, debug maybe by printing os.environ
+    webhooks = False
+    if webhooks:
+        updater.start_webhook(listen="0.0.0.0",
+                            port=int(PORT),
+                            url_path=TOKEN)
+                            # webhook_url="https://ricchardo-bukowski.herokuapp.com/" + TOKEN)
+        logger.info('Running with webhooks')
+    else:
+        updater.start_polling()
+        logger.info("Started with polling")
+
+
+    updater.idle()
 
 @dataclass
 class UserInfoPrompt:
