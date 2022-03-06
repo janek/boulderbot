@@ -1,1 +1,1 @@
-web: python3 cache/cache-server.py
+worker: python3 experiment_post_to_webhook.py
