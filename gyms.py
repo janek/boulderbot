@@ -79,6 +79,7 @@ def refresh_all_gyms_information():
   all_info_json = json.dumps(all_gyms_information, indent=4)
   with open("cache/all.json", "w+") as f:
     f.write(all_info_json)
+  return all_info_json
 
 def refresh_gym_information(gym: GymName, days_to_fetch: {int} = {0}):
   # assert days_to_fetch == {0,1,2,3,4,5,6}, "Currently only supporting refreshing info for all week, for simplicity"
