@@ -72,7 +72,7 @@ def help_command(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
 
-def quote(update, context):
+def echo(update, context):
     update.message.reply_text(update.message.text)
 
 # Currently disabled, was interfering in standard error processing. Could probably work if reconsidered.
@@ -111,7 +111,7 @@ def main():
     )
     dp.add_handler(conv_handler)
 
-    # dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
     updater.start_polling()
     updater.idle()
 
