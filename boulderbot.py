@@ -115,12 +115,12 @@ def main():
 
     # Start the Bot
     # if not program_is_running_on_heroku: # TODO: this condition is broken, debug maybe by printing os.environ
-    webhooks = False
+    webhooks = True
     if webhooks:
         updater.start_webhook(listen="0.0.0.0",
                             port=int(PORT),
-                            url_path=TOKEN)
-                            # webhook_url="https://ricchardo-bukowski.herokuapp.com/" + TOKEN)
+                            url_path=TOKEN,
+                            webhook_url="https://ricchardo-bukowski.herokuapp.com/" + TOKEN)
         logger.info('Running with webhooks')
     else:
         updater.start_polling()
