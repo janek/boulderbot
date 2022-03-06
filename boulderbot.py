@@ -39,7 +39,7 @@ def help_command(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
 
-def quote(update, context):
+def echo(update, context):
     update.message.reply_text(update.message.text)
 
 # Currently disabled, was interfering in standard error processing. Could probably work if reconsidered.
@@ -60,15 +60,8 @@ def cache_information_about_slots():
 def main():
     if not TOKEN:
         raise Exception(f"Could not retrieve {TELEGRAM_BOT_TOKEN}")
-    updater = Updater(TOKEN)
-    logger.info('Starting bot')
-    logger.info("Running on heroku" if program_is_running_on_heroku() else "Running locally")
-
-    # schedule.every(1).minutes.do(cache_information_about_slots)
-
-    # while True:
-    #     schedule.run_pending()
-    #     time.sleep(1)
+    updater = Updater(TOKEN, use_context=True)
+    logger.info("Starting bot on Heroku" if program_is_running_on_heroku() else "Starting bot locally")
 
     # Register command handlers
     dp = updater.dispatcher
@@ -79,10 +72,10 @@ def main():
     # on any error caused by message or command Warning: seems to conflict with normal error reporting
     # dp.add_error_handler(error)
 
-    # on noncommand i.e message - reply the message on Telegram. Warning: conflicts with the reg. flow
-    # dp.add_handler(MessageHandler(Filters.text, quote))
+    # on noncommand i.e message - reply the message on Telegram. Warning: conflicts with the regstration flow!
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
 
-    # User registration/reconfiguration flow
+    # Register user registration/reconfiguration flow
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', prompt_for_user_info), CommandHandler('register', prompt_for_user_info)],
         states={
@@ -92,23 +85,18 @@ def main():
     )
     dp.add_handler(conv_handler)
 
-    # dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
-    updater.start_polling()
+    # Start the bot
+    if program_is_running_on_heroku():
+        updater.start_webhook(listen="0.0.0.0",
+                            port=int(PORT),
+                            url_path=TOKEN,
+                            webhook_url="https://ricchardo-bukowski.herokuapp.com/" + TOKEN)
+        logger.info('Running with webhooks')
+    else:
+        updater.start_polling()
+        logger.info("Started with polling")
+
     updater.idle()
-
-
-    # # # Start the Bot
-    # # if not program_is_running_on_heroku: # TODO: this condition is broken, debug maybe by printing os.environ
-    # logger.info("Running locally")
-    # updater.start_polling()
-    # # else:
-    # # logger.info('Running with webhooks')
-    # # updater.start_webhook(listen="0.0.0.0",
-    # #                     port=int(PORT),
-    # #                     url_path=TOKEN,
-    # #                     webhook_url="https://ricchardo-bukowski.herokuapp.com/" + TOKEN)
-    # logger.info('Started webhook')
-    # updater.idle()
 
 @dataclass
 class UserInfoPrompt:

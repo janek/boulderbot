@@ -1,5 +1,8 @@
 # Deployment & hosting
 
+### Versions
+- v0.1 - Bot works both on heroku and locally, checking doesn't 
+
 ### Current
 1. Test caching locally
 2. Test on heroku
