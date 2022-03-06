@@ -114,9 +114,7 @@ def main():
     # webhook_url_base = "https://ricchardo-bukowski.herokuapp.com/" if program_is_running_on_heroku else "http://localhost/"
 
     # Start the Bot
-    # if not program_is_running_on_heroku: # TODO: this condition is broken, debug maybe by printing os.environ
-    webhooks = True
-    if webhooks:
+    if program_is_running_on_heroku():
         updater.start_webhook(listen="0.0.0.0",
                             port=int(PORT),
                             url_path=TOKEN,
