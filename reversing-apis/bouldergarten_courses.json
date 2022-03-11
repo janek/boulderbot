@@ -1,0 +1,79 @@
+{
+  "courses": [
+    {
+      "id": 66987854,
+      "title": "Einstiegskurs Bouldern",
+      "group": "Boulderkurse"
+    },
+    {
+      "subtitle": "Individuelles Coaching",
+      "id": 66988416,
+      "title": "Trainer*innen-Stunde",
+      "group": "Trainingskurse"
+    },
+    {
+      "id": 66988090,
+      "title": "Bouldering for Advanced Learners",
+      "group": "Boulderkurse"
+    },
+    {
+      "id": 66988018,
+      "title": "Besser Werden",
+      "group": "Boulderkurse"
+    },
+    {
+      "subtitle": "Grundlagen für das Klettern im Vorstieg an den Sportkletteranlagen Berlins",
+      "id": 66988056,
+      "title": "Vorstiegskurs",
+      "group": "Seilkurse"
+    },
+    {
+      "id": 66988073,
+      "title": "Bouldering for Beginners",
+      "group": "Boulderkurse"
+    },
+    {
+      "subtitle": "Introduction to the Toprope climbing and belaying with the Jul²",
+      "id": 162674766,
+      "title": "Toprope Course",
+      "group": "Seilkurse"
+    },
+    {
+      "subtitle": "für Menschen ab 14 Jahren!",
+      "id": 67359814,
+      "title": "Eintritt / Slot",
+      "group": "Halleneintritt"
+    },
+    {
+      "subtitle": "Nur Kinderbereich! (Blaue Matten)",
+      "id": 183281459,
+      "title": "Kinderwald Ticket Mo-Fr",
+      "group": "Kinderwald"
+    },
+    {
+      "subtitle": "Nur Kinderbereich! (Blaue Matten)",
+      "id": 131973215,
+      "title": "Kinderwald Ticket Sa+So",
+      "group": "Kinderwald"
+    },
+    {
+      "subtitle": "Freude am Kopfüber",
+      "id": 66988123,
+      "title": "Handstand",
+      "group": "Trainingskurse"
+    },
+    {
+      "subtitle": "Einweisung in das Toprope Klettern und Sichern mit dem Jul²",
+      "id": 66988035,
+      "title": "Toprope Kurs",
+      "group": "Seilkurse"
+    },
+    {
+      "subtitle": "",
+      "id": -1,
+      "title": "Gutschein kaufen",
+      "group": "Gutscheine"
+    }
+  ],
+  "locale": "de-DE"
+}

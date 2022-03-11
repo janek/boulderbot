@@ -1,0 +1,166 @@
+{
+  "clientId": 66563713,
+  "locale": "de-DE",
+  "timezoneOffsetNow": 3600000,
+  "title": "Eintritt / Slot",
+  "subtitle": "für Menschen ab 14 Jahren!",
+  "online": true,
+  "contactEmail": "kurse@bouldergarten.de",
+  "contactName": "Sarah",
+  "contactPhone": null,
+  "description": "F&#252;r deinen Ausflug in den Bouldergarten ist die Buchung eines Termins (Eintritt oder Slot) unbedingt erforderlich. Der Eintritt berechtigt zur Nutzung der Anlage ausschlie&#223;lich in dem gew&#228;hlten Zeitraum.<br/>Seit 04.03.2022 gilt die <b>3G-Regel</b>:<strong><em> <br/></em></strong><br/><span><b>Geimpft </b>(14 Tage nach letzter Impfung) <b><br/></b></span><br/><span><b>Genesen </b>(mind. 28 Tage, max. 90 Tage nach positivem Test) <br/></span><br/><span><b>Getestet </b>(PCR max. 48h, POC-Antigentest max. 24h)</span><i><span lang=\"EN-US\"></span></i><span></span><br/><br/>Bitte trage w&#228;hrend deines gesamten Aufenthalts eine medizinischer Maske /<strong>&#160;</strong>bevorzugt <b>FFP2- /KN95-Maske</b>. <br/>Wenn du Fragen hast, schau dir unsere <a href=\"https://bouldergarten.de/wp-content/uploads/2022/03/FAQ_de.pdf\" target=\"_blank\">FAQ (de)</a> /<a href=\"https://bouldergarten.de/wp-content/uploads/2022/03/FAQ_eng.pdf\" target=\"_blank\"> FAQ (eng)</a> an. Kontakt bei weiteren Fragen: <a href=\"mailto:kurse@bouldergarten.de\">kurse@bouldergarten.de</a><br/><br/>Wir freuen uns auf deinen Besuch!<br/><br/><span lang=\"EN-US\"><br/></span><b><span lang=\"EN-US\"></span></b>&#10;&#10;",
+  "equipmentRequirements": "<strong>Erm&auml;&szlig;igungsnachweis&nbsp;</strong>wenn du den erm&auml;&szlig;igten Tarif gebucht hast.<br><strong>Gutschein&nbsp;</strong>in A4 gedruckt, wenn du Gutschein als Zahlungsart gew&auml;hlt hast.<br><strong>Barcode-K&auml;rtchen</strong>, wenn du den Tarif Dauerkarte / 10er-Karte gebucht hast.<br><br><strong>Schuhe, Sicherungsger&auml;t, Seil und Gurt kannst du ausleihen.</strong><br>Chalkbags verleihen wir nicht mehr. Daf&uuml;r gibt es LIQUID-Chalk zur Leihe.<br><br><br>",
+  "location": null,
+  "skillRequirements": null,
+  "onlyWholeCourseBookable": false,
+  "clientName": "Bouldergarten GmbH",
+  "termsUrl": "https://bouldergarten.de/wp-content/uploads/2020/01/Nutzungsbedingungen-Bouldergarten-GmbH.pdf",
+  "dataProtectionUrl": "https://bouldergarten.de/wp-content/uploads/2020/04/Datenschutzerkl%C3%A4rung.pdf",
+  "termsOfParticipationUrl": null,
+  "cancellationPolicyUrl": "https://bouldergarten.de/wp-content/uploads/2021/11/StornoRegeln_Terminbuchung.pdf",
+  "type": "ONLINE_BOOKABLE",
+  "bookingDesiredDateSetting": "DESIRED_DATE_NOT_ALLOWED",
+  "minCourseParticipantCount": 1,
+  "maxCourseParticipantCount": 18,
+  "isPaypalPlus": false,
+  "isBoulderado": false,
+  "tariffs": [
+    {
+      "id": 88800368,
+      "name": "Alpin Club Mitglied",
+      "description": "Dieser Tarif gilt NUR f&uuml;r Mitglieder des Alpin Club. Der entsprechende Betrag ist beim Check-In vor Ort zu zahlen.<br>AC-Regul&auml;r: 7,50 &euro;<br>AC-Erm&auml;&szlig;igt: 6,00 &euro;<br>AC-Sch&uuml;ler*in: 4,50 &euro;",
+      "additionalFieldLabel": null,
+      "forCourseDatesFrom": 0,
+      "forCourseDatesUntil": 0,
+      "negateForCourseDatesInterval": false,
+      "fees": [
+        {
+          "name": null,
+          "fee": 0.0,
+          "perXParticipants": 1,
+          "taxPercentage": 0.0
+        }
+      ]
+    },
+    {
+      "id": 68083827,
+      "name": "USC-Mitglied (Urban Sports Club)",
+      "description": "Dieser Tarif kann nur in Verbindung mit einer Mitgliedschaft beim Urban Sports Club gebucht werden. Deine Buchung ist verbindlich. Bei Nicht-Erscheinen wird der Eintritt dennoch von deinem monatlichen Kontingent abgezogen.<br/><em>This tariff can only be booked in conjunction with a membership of the Urban Sports Club. Your booking is binding. If you do not show up the entrance will&#160; be deducted from your monthly quota.</em>",
+      "additionalFieldLabel": "Mitgliedsnummer",
+      "forCourseDatesFrom": 0,
+      "forCourseDatesUntil": 0,
+      "negateForCourseDatesInterval": false,
+      "fees": [
+        {
+          "name": null,
+          "fee": 0.0,
+          "perXParticipants": 1,
+          "taxPercentage": 19.0
+        }
+      ]
+    },
+    {
+      "id": 68102896,
+      "name": "10er Karte",
+      "description": "Die 10er Karte (Barcode-K&#228;rtchen) muss beim Check-in vorgezeigt werden, damit der Eintritt per Scan von deinem Account abgebucht werden kann.<br/>Bei Nicht-Erscheinen behalten wir uns vor, den Eintritt von deiner 10er Karte abzuziehen.",
+      "additionalFieldLabel": null,
+      "forCourseDatesFrom": 0,
+      "forCourseDatesUntil": 0,
+      "negateForCourseDatesInterval": false,
+      "fees": [
+        {
+          "name": null,
+          "fee": 0.0,
+          "perXParticipants": 1,
+          "taxPercentage": 19.0
+        }
+      ]
+    },
+    {
+      "id": 67359802,
+      "name": "Ermäßigt / Reduced",
+      "description": "Gilt f&#252;r StudentInnen, <em>Berlinpass</em> InhaberInnen, InhaberInnen eines Schwerbehindertenausweises, Senioren, Sch&#252;lerInnen ab 20 Jahren.<br/>ACHTUNG: der <strong>Erm&#228;&#223;igungsnachweis&#160;</strong>ist beim Check-In vor Ort unaufgefordert vorzuzeigen. Wenn du den Nachweis nicht vorweisen kannst ist die Differenz zum regul&#228;ren Tarif vor Ort zu entrichten.<br/><em>Applies to students, Berlinpass holders, holders of a severely disabled pass, senior citizens, pupils aged 20 and over.<br/>ATTENTION: the <strong>discount certificate must be presented</strong> at the check-in on site without being asked. If you can't show the proof, the difference to the regular rate has to be paid on site.</em>",
+      "additionalFieldLabel": null,
+      "forCourseDatesFrom": 0,
+      "forCourseDatesUntil": 0,
+      "negateForCourseDatesInterval": false,
+      "fees": [
+        {
+          "name": null,
+          "fee": 8.0,
+          "perXParticipants": 1,
+          "taxPercentage": 19.0
+        }
+      ]
+    },
+    {
+      "id": 67359800,
+      "name": "Schüler / School Pupils",
+      "description": "Gilt f&#252;r Menschen bis zum vollendeten 20 Lebensjahr.<br/>Jugendliche zwischen 14 und 18 Jahren d&#252;rfen die Anlage nur in Begleitung einer erwachsenen Person nutzen. F&#252;r 14-18 J&#228;hrige kann der Sch&#252;ler-Tarif also nur in Verbindung mit einem Erwachsenen-Tarifs gebucht werden!<br/>Es gilt au&#223;erdem: max. 1 Jugendliche*r (14-18 Jahre) pro Erwachsene*r.<br/><em>Applies to people up to the age of 20.<br/>Young people between the ages of 14 and 18 may only use the facility when accompanied by an adult. For 14-18 year olds the student rate can only be booked in combination with one adult rate!<br/>Please note: max. 1 youth (14-18 years) per adult.</em>",
+      "additionalFieldLabel": null,
+      "forCourseDatesFrom": 0,
+      "forCourseDatesUntil": 0,
+      "negateForCourseDatesInterval": false,
+      "fees": [
+        {
+          "name": null,
+          "fee": 6.0,
+          "perXParticipants": 1,
+          "taxPercentage": 19.0
+        }
+      ]
+    },
+    {
+      "id": 67359804,
+      "name": "Erwachsene / Regular",
+      "description": null,
+      "additionalFieldLabel": null,
+      "forCourseDatesFrom": 0,
+      "forCourseDatesUntil": 0,
+      "negateForCourseDatesInterval": false,
+      "fees": [
+        {
+          "name": null,
+          "fee": 10.0,
+          "perXParticipants": 1,
+          "taxPercentage": 19.0
+        }
+      ]
+    },
+    {
+      "id": 67359798,
+      "name": "Dauerkarte / Season Ticket",
+      "description": "Gilt f&#252;r BesitzerInnen einer Dauerkarte (1-Monatskarte / 3-Monatskarte / 6-Monatskarte / Jahreskarte).<br/>Dieser Tarif gilt NICHT f&#252;r 10er-Karten!<br/>Die Dauerkarte (Barcode-K&#228;rtchen) muss beim Check-in vorgezeigt werden und wird per Scan gepr&#252;ft. Kann die Karte nicht vorgezeigt werden ist der normale Eintritt zu entrichten!<br/>Bei Nicht-Erscheinen behalten wir uns vor, den gebuchten Eintritt in Rechnung zu stellen, da der Termin von dir belegt ist und somit keiner anderen Person zur Verf&#252;gung steht.<br/><em>Valid for holders of a season ticket (1-month ticket / 3-month ticket / 6-month ticket / annual ticket).<br/>This tariff does NOT apply to 10-person tickets!<br/>The season ticket (barcode card) must be presented at check-in and is checked by scan. If the card cannot be shown, the normal entrance fee has to be paid!<br/>In case of no-show&#160; we reserve the right to charge the booked entrance fee, as the appointment is occupied by you and therefore not available to another person.</em>",
+      "additionalFieldLabel": null,
+      "forCourseDatesFrom": 0,
+      "forCourseDatesUntil": 0,
+      "negateForCourseDatesInterval": false,
+      "fees": [
+        {
+          "name": null,
+          "fee": 0.0,
+          "perXParticipants": 1,
+          "taxPercentage": 0.0
+        }
+      ]
+    }
+  ],
+  "paymentMethods": [
+    {
+      "id": 167850931,
+      "name": "VOR ORT /// ON SITE",
+      "description": "Bitte zahlt den Eintritt entsprechend eures Tarifs in bar oder mit Karte vor Ort am Tresen.<br/><br/><i>Please pay the entrance fee according to your tariff in cash or with card on site at the counter.</i>",
+      "type": "MISC"
+    },
+    {
+      "id": 67359796,
+      "name": "Gutschein",
+      "description": "Der Halleneintritt wird beim Check-in vor Ort vom Gutschein abgezogen. Bitte bring dazu den Gutschein ausgedruckt als DIN-A4-Blatt mit.<br>Ohne Vorlage des Gutscheins in ausgedruckter Form muss der Eintritt per EC-Zahlung entrichtet werden.",
+      "type": "MISC"
+    }
+  ],
+  "withdrawalPeriod": null,
+  "cancellationFeePeriods": [
+    { "feeFix": 0.0, "feePercentage": 0.0, "start": null, "end": null }
+  ]
+}
