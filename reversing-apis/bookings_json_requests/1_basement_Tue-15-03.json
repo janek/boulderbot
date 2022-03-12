@@ -1,0 +1,42 @@
+{
+  "clientId": 122632017,
+  "shiftModelId": 155581628,
+  "shiftSelector": [
+    [
+      0,
+      null,
+      true
+    ],
+    155581628,
+    37,
+    34,
+    0,
+    134,
+    1647298800000,
+    1647385200000,
+    "SKB-34-134"
+  ],
+  "desiredDate": null,
+  "dateOfBirthString": "22.01.1994",
+  "streetAndHouseNumber": "Sonnenallee 102",
+  "postalCode": "12045",
+  "city": "Berlin",
+  "phoneMobile": "+48515243191",
+  "type": "booking",
+  "participants": [
+    {
+      "isBookingPerson": true,
+      "tariffId": 155589630,
+      "dateOfBirthString": "22.01.1994",
+      "firstName": "Janek",
+      "lastName": "Szynal",
+      "email": "jan.szynal@gmail.com",
+      "additionalFieldValue": "100047904",
+      "dateOfBirth": "1994-01-22"
+    }
+  ],
+  "firstName": "Janek",
+  "lastName": "Szynal",
+  "email": "jan.szynal@gmail.com",
+  "dateOfBirth": "1994-01-22"
+}

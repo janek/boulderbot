@@ -1,0 +1,42 @@
+{
+  "clientId": 66563713,
+  "shiftModelId": 67359814,
+  "shiftSelector": [
+    [
+      0,
+      null,
+      true
+    ],
+    67359814,
+    26,
+    24,
+    0,
+    656,
+    1647039600000,
+    1647126000000,
+    "EIK-24-656"
+  ],
+  "desiredDate": null,
+  "dateOfBirthString": "1980-01-01",
+  "streetAndHouseNumber": "-",
+  "postalCode": "00000",
+  "city": "-",
+  "phoneMobile": "-",
+  "type": "booking",
+  "participants": [
+    {
+      "isBookingPerson": true,
+      "tariffId": 68083827,
+      "dateOfBirthString": "1980-01-01",
+      "firstName": "Janek",
+      "lastName": "Szynal",
+      "email": "jan.szynal@gmail.com",
+      "additionalFieldValue": "100047904",
+      "dateOfBirth": "1980-01-01"
+    }
+  ],
+  "firstName": "Janek",
+  "lastName": "Szynal",
+  "email": "jan.szynal@gmail.com",
+  "dateOfBirth": "1980-01-01"
+}
