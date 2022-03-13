@@ -2,6 +2,8 @@
 
 # https://backend.dr-plano.com/courses_reserve
 
+# shiftSelector = [[0,null,true],155581628,37,34,0,134,1647298800000,1647385200000,"SKB-34-134"]
+# shiftSelector = [[0,null,true],67359814,26,24,0,656,1647039600000,1647126000000,"EIK-24-656"]
 
 # Tue, 15.03 18:00-20:00, Basement Boulderstudio
 # shiftModelId = 155581628
