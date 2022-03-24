@@ -1,3 +1,21 @@
+### Current context
+
+- M-x diff checking_flow temp.py
+- finish 'perform plano request'
+- test run two requests
+- courses should test against error reporting in the future
+
+
+
+- there's the caching/webapp topic that's based on a json format (date: start/end/free)
+- `dates_filtering.py` takes a file with a cached answer from bouldergarten and formats it to (d: s/e/f)
+- next step is to stop freaking out about sending requests
+  - user-agent randomization
+  - vpn/proxy/tunneling
+  - request timing randomization 
+  - request timing sleep rhythmicality
+
+
 # Deployment & hosting
 
 ### Versions
@@ -42,7 +60,6 @@ Questions:
 - Should I have used a database?
 - Should I be using webhooks? 
 
-### Current context
 
 ### Older context
 - json dilemma: should we save {free_slots: "0} or just ignore an empty timeslot

@@ -57,8 +57,10 @@ for slot in json_info:
      if free_places < 0:
           print(start_time_str, slot_date_str)
           print(f"wtf, {slot['maxCourseParticipantCount']}, {slot['currentCourseParticipantCount']}")
+          # XXX: remove comments, use min()
+          free_places = 0
      save_slot(slot_date_str, start_time_str, end_time_str, free_places)
 
-# pprint(gym_info)
+pprint(gym_info)
 # with open('tmp.json', 'w') as ff:
 #      ff.write(json.dumps(json_info))

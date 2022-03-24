@@ -36,10 +36,12 @@ gyms = {
     GymName.BOULDERGARTEN : {
         "emoji": "🍃",
         "link": "https://bouldergarten.de",
+        "dr_plano_id": "67359814",
     },
     GymName.BOULDERKLUB : {
         "emoji": "♣",
         "link": "https://boulderklub.de",
+        "dr_plano_id": "67361411",
     },
 }
 
