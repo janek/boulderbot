@@ -21,7 +21,7 @@ with open(FILENAME, "r") as f:
 # 3. (slot nrs side note) 561 - 543 == 18. (24 - 22) * 31 == 61. 18 != 61, so something's off, but whatever
 # 4. For Bouldergarten, after filtering for 'active dates' slots, there are 161 left. 161/22 == 7.31, but 161/23 == 7
 
-# Set a timezone for correctly interpretting timestamps regardless of physical location
+# Set a timezone for correctly interpretting timestamps regardless of physical location of the server
 os.environ['TZ'] = 'Europe/Berlin'
 
 class SlotStates(Enum):
