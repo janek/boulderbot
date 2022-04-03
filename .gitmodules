@@ -1,3 +1,0 @@
-[submodule "boulderbot-svelte-frontend"]
-	path = webapp
-	url = git@github.com:janek/boulderbot-svelte-frontend
