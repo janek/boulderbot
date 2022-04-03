@@ -123,11 +123,11 @@ def get_mock_data():
 
 def cache_slots_info(slots_info: dict):
   with open("../cache/all.json", "w+") as cache_file:
-    json.dump(slots_info, cache_file)
+    json.dump(slots_info, cache_file, indent=4)
 
 def cache_plano_slots_info(plano_slots_info: dict):
   with open("plano_stash.json", "w+") as f:
-    json.dump(plano_slots_info, f)
+    json.dump(plano_slots_info, f, indent=4)
 
 def update():
   gym = GymName.BOULDERGARTEN
