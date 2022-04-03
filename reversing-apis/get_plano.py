@@ -35,7 +35,7 @@ def perform_dr_plano_request(endpoint: DrPlanoEndpoint, gym_name: GymName):
         raise Exception("Not plano")
         # XXX: better error reporting
 
-    shared_headers = {
+    headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:98.0) Gecko/20100101 Firefox/98.0',
         'Accept': '*/*',
         'Accept-Language': 'en-US,en;q=0.5',
@@ -51,13 +51,15 @@ def perform_dr_plano_request(endpoint: DrPlanoEndpoint, gym_name: GymName):
 
     params = {'id' : gyms[gym_name]['dr_plano_id']}
 
-    # TODO: Generate beginnings of the month in unix timestamp with extra zeros
+    # TODO:DATES: Generate beginnings of the month in unix timestamp with extra zeros
     # Test values:
     # 1646089200000 - 1.03
     # 1648764000000 - 1.04
     # 1651356000000 - 1.05
 
-    if endpoint == DrPlanoEndpoint.COURSES_DATES:
+    if endpoint.value == DrPlanoEndpoint.COURSES_DATES.value:
+        # TODO: comparing by value is a workaround for https://stackoverflow.com/questions/26589805/python-enums-across-modules
+        # It should not be necessary outside of testing, so this can be changed to "endpoint is endpoint"
         additional_params = {
             'advanceToFirstMonthWithDates': None,
             'start': '1648764000000',
@@ -71,21 +73,23 @@ def perform_dr_plano_request(endpoint: DrPlanoEndpoint, gym_name: GymName):
     param_to_string = lambda key, value: f"{key}={value}" if value != None else key
     url_params_as_string = list([param_to_string(key,value) for (key, value) in params.items()])
     url = dr_plano_url + "/" + endpoint.value + "?"  + "&".join(url_params_as_string)
-
     print("Performing or simulating request for url: "+ url)
-    r = "nil"
-    # r = requests.get(url, headers=headers)
-    return r
+    res = requests.get(url, headers=headers)
+    slots_info = json.loads(res.text)
+    return slots_info
 
-def convert_plano_json_to_our_json(json_info):
+# perform_dr_plano_request(DrPlanoEndpoint.COURSES_DETAIL, GymName.BOULDERKLUB)
+# perform_dr_plano_request(DrPlanoEndpoint.COURSES_DATES, GymName.BOULDERKLUB)
+
+def convert_plano_schema_to_our_schema(slot_info: dict, gym: GymName):
   # Set a timezone for correctly interpretting timestamps regardless of physical location of the server
   os.environ['TZ'] = 'Europe/Berlin'
 
   # XXX: This would probably read cleaner as a filter and a helper "bookable?" function
-  json_info = [slot for slot in json_info if slot['state'] not in [SlotStates.NOT_BOOKABLE_ANYMORE.value, SlotStates.NOT_YET_BOOKABLE.value]]
-  gym_info = {}
+  slot_info = [slot for slot in slot_info if slot['state'] not in [SlotStates.NOT_BOOKABLE_ANYMORE.value, SlotStates.NOT_YET_BOOKABLE.value]]
+  new_slots_info = {}
 
-  for slot in json_info:
+  for slot in slot_info:
       start_timestamp = slot['dateList'][0]['start']/1000
       start_time_str = datetime.fromtimestamp(start_timestamp).strftime('%H:%M')
 
@@ -95,8 +99,10 @@ def convert_plano_json_to_our_json(json_info):
       free_places = slot['maxCourseParticipantCount'] - slot['currentCourseParticipantCount']
       slot_date_str = str(date.fromtimestamp(start_timestamp))
       free_places = max(free_places, 0) # Negative places are possible if they have a glitch, it seems
-      save_slot(slot_date_str, start_time_str, end_time_str, free_places, gym_info)
-  return gym_info
+      save_slot(slot_date_str, start_time_str, end_time_str, free_places, new_slots_info)
+
+  slots_info_per_hall = { gym.value : new_slots_info }
+  return slots_info_per_hall
 
 def save_slot(date_string, start_time, end_time, free_places, gym_info):
     slot_info = { 'start_time': start_time, 'end_time': end_time, 'free_places': free_places}
@@ -115,29 +121,18 @@ def get_mock_data():
       json_info = json.load(f)
       return json_info
 
-# json_info = get_mock_data()
-# x = convert_plano_json_to_our_json(json_info)
-# pprint(x)
+def cache_slots_info(slots_info: dict):
+  with open("../cache/all.json", "w+") as cache_file:
+    json.dump(slots_info, cache_file)
 
-# TODO: create date helpers
-# TODO: make sure timezone is set
-def is_not_in_the_past(date: str):
-  date_format = "%Y-%m-%d"
-  date = datetime.strptime(date, date_format).date()
-  today = date.today()
-  print(date, date > today)
-  return date > today
+def cache_plano_slots_info(plano_slots_info: dict):
+  with open("plano_stash.json", "w+") as f:
+    json.dump(plano_slots_info, f)
 
-def insert_into_cache(slots_info):
-  with open('../cache/all.json', 'r') as f:
-    cache = json.load(f)
-    print(cache.keys())
-    for gym_name in cache.keys():
-      cache[gym_name] = { date : slots for (date, slots) in cache[gym_name].items() if is_not_in_the_past(date) }
-    print(cache)
-
-insert_into_cache(0)
-
-# pprint(convert_plano_json_to_our_json(json_info))
-# with open('tmp.json', 'w') as ff:
-#      ff.write(json.dumps(json_info))
+def update():
+  gym = GymName.BOULDERGARTEN
+  perform_dr_plano_request(DrPlanoEndpoint.COURSES_DETAIL, gym) # Perform this request to look more natural, ignore the result
+  dr_plano_slots_info = perform_dr_plano_request(DrPlanoEndpoint.COURSES_DATES, gym)
+  cache_plano_slots_info(dr_plano_slots_info)
+  slots = convert_plano_schema_to_our_schema(dr_plano_slots_info, gym)
+  cache_slots_info(slots)
